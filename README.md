@@ -1,16 +1,3 @@
-# My Personal Project
-
-## A subtitle
-
-A *bulleted* list:
-- item 1
-- item 2
-- item 3
-
-An example of text with **bold** and *italic* fonts.  Note that the IntelliJ markdown previewer doesn't seem to render 
-the bold and italic fonts correctly but they will appear correctly on GitHub.
-
-
 # Dungeoneers
 
 ## A Turn-Based Dungeon Crawler
@@ -53,3 +40,17 @@ So naturally, I'd want to make a game for my project! I'm also very interested i
 aesthetics and D&D, so this project will be an amalgamation of several things I'm passionate about.
 This will be the first 'large' game I have ever built from the ground-up. The only games
 I have made before were rudimentary ones (tic-tac-toe, hangman, etc.). 
+
+**User Stories**
+
+The things the player should be able to do include:
+
+- Move their character in the desired direction 
+- Pick up items and add them to inventory. Drop items from inventory.
+- Switch equipped armor and weapons with those in inventory. 
+- Use skill points gained from levelling up to increase the desired stat.
+- Have the character's stats altered by equipped armor and weapons
+- Attack enemies near the player by walking into them. Attacks can miss or critical hit.
+Same goes for enemy attacks on the player.
+- Take damage from traps and enemies, or dodge/block them with high enough defense or agility
+- Interact with NPCs: speak with them, choose dialogue options, and buy/sell items

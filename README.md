@@ -4,13 +4,14 @@
 
 **What will the application do?**
 
-This application can be used to help the user practice writing certain Japanese subjects
+This application can be used to help the user practice memorizing certain Japanese subjects
 in hiragana and katakana (kanji not included). 
+The application will allow the user to run through pre-made problem sets, or randomly
+generate a problem set of their own. This randomly generated problem set will be 
+of length determined by the user and contain only subjects enabled by the User. 
 
 Subjects include:
-- Telling the age
 - Telling the time
-- Telling the price 
 - Memorizing hiragana 
 - Memorizing katakana 
 - Basic Vocabulary 
@@ -36,6 +37,5 @@ The things the user should be able to do include:
 - Choose the input type (display Japanese characters, type english or vice versa)
 - Choose which types of questions to be asked in each problem set
 - Choose if they want to be timed or not 
-- Provide feedback based off score, performance and past attempts
-- Add a problem set to a queue that you can play through
+- Provide feedback based off score, timed performance and past attempts
 - Run through a previously created problem set (Will be implemented in phase 2)

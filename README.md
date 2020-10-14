@@ -50,4 +50,6 @@ The user stories I have finished implementing for phase 1 are:
 - Choose the input type (display Japanese characters, type english or vice versa)
 - Choose if they want to be timed or not 
 
+- Phase 1 complete. Only minor bug remaining is that problemSet CAN contain duplicates. Will resolve later.
+
 

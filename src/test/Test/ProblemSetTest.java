@@ -69,14 +69,13 @@ public class ProblemSetTest {
         //This methods tests generateAvailableHiragana1 , 2 and 3
 
         //test case where it generates empty list because all rows are disabled
-        ps1.hiraganaSet15 = false;
         ps1.hiraganaSet16 = false;
-        assertEquals(0, ps1.generateAvailableHiragana3().size());
+        assertEquals(0, ps1.generateAvailableHiragana4().size());
         //test case where it generates some rows, but not all
-        ps1.hiraganaSet14 = false;
-        assertEquals(21, ps1.generateAvailableHiragana2().size());
+        ps1.hiraganaSet6 = false;
+        assertEquals(15, ps1.generateAvailableHiragana2().size());
         //test case where it genereates all rows
-        assertEquals(35, ps1.generateAvailableHiragana1().size());
+        assertEquals(25, ps1.generateAvailableHiragana1().size());
 
     }
 

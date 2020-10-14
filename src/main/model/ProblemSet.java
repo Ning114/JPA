@@ -97,7 +97,6 @@ public class ProblemSet {
     public ArrayList<Problem> vocabThings;
 
 
-
     //Initializes an empty problemSet with the specified displayType.
     //By default, all subjects are enabled and can be changed by the User later.
     //scoreThisSetTotal is determined after a problem set is generated and scoreThisSet is calculated after the user
@@ -106,6 +105,26 @@ public class ProblemSet {
 
         this.displayType = displayType;
         this.scoreThisSet = 0;
+
+        initializeHiraganaBool();
+
+        initializeKatakanaBool();
+
+        initializeVocabBool();
+
+        this.timeSet = true;
+
+
+        this.availableProblems = new ArrayList<Problem>();
+
+        initializeHiraganaRowLists();
+
+        initializeVocabSetLists();
+
+    }
+
+    //EFFECTS: initializes all hiraganaRow bool to true
+    public void initializeHiraganaBool() {
 
         this.hiraganaSet1 = true;
         this.hiraganaSet2 = true;
@@ -124,6 +143,11 @@ public class ProblemSet {
         this.hiraganaSet15 = true;
         this.hiraganaSet16 = true;
 
+    }
+
+    //EFFECTS: initializes all katakanaRow bool to true
+    public void initializeKatakanaBool() {
+
         this.katakanaSet1 = true;
         this.katakanaSet2 = true;
         this.katakanaSet3 = true;
@@ -141,22 +165,19 @@ public class ProblemSet {
         this.katakanaSet15 = true;
         this.katakanaSet16 = true;
 
-        this.timeSet = true;
+    }
 
+    //EFFECTS: initializes all vocabSet bool to true
+    public void initializeVocabBool() {
         this.vocabFamilySet = true;
         this.vocabMajorsSet = true;
         this.vocabGreetingsSet = true;
         this.vocabPlacesSet = true;
         this.vocabThingsSet = true;
+    }
 
-        this.availableProblems = new ArrayList<Problem>();
-
-        this.problemSet = new ArrayList<Problem>();
-        this.vocabFamily = new ArrayList<Problem>();
-        this.vocabMajors = new ArrayList<Problem>();
-        this.vocabGreetings = new ArrayList<Problem>();
-        this.vocabPlaces = new ArrayList<Problem>();
-        this.vocabThings = new ArrayList<Problem>();
+    //EFFECTS: initializes all hiraganaRow ArrayLists as empty lists
+    public void initializeHiraganaRowLists() {
 
         this.hiraganaRow1 = new ArrayList<Problem>();
         this.hiraganaRow2 = new ArrayList<Problem>();
@@ -177,14 +198,23 @@ public class ProblemSet {
 
     }
 
+    //EFFECTS: initializes all vocabSet ArrayLists as empty lists
+    public void initializeVocabSetLists() {
+        this.problemSet = new ArrayList<Problem>();
+        this.vocabFamily = new ArrayList<Problem>();
+        this.vocabMajors = new ArrayList<Problem>();
+        this.vocabGreetings = new ArrayList<Problem>();
+        this.vocabPlaces = new ArrayList<Problem>();
+        this.vocabThings = new ArrayList<Problem>();
+    }
+
+
     //EFFECTS: returns this.displayType
     public String getDisplayType() {
 
         return this.displayType;
 
     }
-
-
 
 
     //REQUIRES: at least one Subject set is enabled and size of problem set is <= size of availableProblems
@@ -236,6 +266,7 @@ public class ProblemSet {
         this.availableProblems.addAll(generateAvailableHiragana1());
         this.availableProblems.addAll(generateAvailableHiragana2());
         this.availableProblems.addAll(generateAvailableHiragana3());
+        this.availableProblems.addAll(generateAvailableHiragana4());
         this.availableProblems.addAll(generateAvailableVocab());
 
     }
@@ -256,8 +287,8 @@ public class ProblemSet {
     }
 
 
-    //EFFECTS: adds all hiragana rows 1-7 to result if they are enabled by user. Returns result after checking
-    //all hiragana rows 1-7
+    //EFFECTS: adds all hiragana rows 1-5 to result if they are enabled by user. Returns result after checking
+    //all hiragana rows 1-5
     public ArrayList<Problem> generateAvailableHiragana1() {
 
         ArrayList<Problem> result = new ArrayList<Problem>();
@@ -282,6 +313,18 @@ public class ProblemSet {
             initializeHiraganaRow5();
             result.addAll(hiraganaRow5);
         }
+
+
+        return result;
+
+    }
+
+    //EFFECTS: adds all hiragana rows 6-10 to result if they are enabled by user. Returns result after checking
+    //all hiragana rows 6-10
+    public ArrayList<Problem> generateAvailableHiragana2() {
+
+        ArrayList<Problem> result = new ArrayList<Problem>();
+
         if (this.hiraganaSet6) {
             initializeHiraganaRow6();
             result.addAll(hiraganaRow6);
@@ -290,17 +333,6 @@ public class ProblemSet {
             initializeHiraganaRow7();
             result.addAll(hiraganaRow7);
         }
-
-        return result;
-
-    }
-
-    //EFFECTS: adds all hiragana rows 8-14 to result if they are enabled by user. Returns result after checking
-    //all hiragana rows 8-14
-    public ArrayList<Problem> generateAvailableHiragana2() {
-
-        ArrayList<Problem> result = new ArrayList<Problem>();
-
         if (this.hiraganaSet8) {
             initializeHiraganaRow8();
             result.addAll(hiraganaRow8);
@@ -313,6 +345,18 @@ public class ProblemSet {
             initializeHiraganaRow10();
             result.addAll(hiraganaRow10);
         }
+
+
+        return result;
+
+    }
+
+    //EFFECTS: adds all hiragana rows 11-15 to result if they are enabled by user. Returns result after checking
+    //all hiragana rows 11-15
+    public ArrayList<Problem> generateAvailableHiragana3() {
+
+        ArrayList<Problem> result = new ArrayList<Problem>();
+
         if (this.hiraganaSet11) {
             initializeHiraganaRow11();
             result.addAll(hiraganaRow11);
@@ -329,21 +373,21 @@ public class ProblemSet {
             initializeHiraganaRow14();
             result.addAll(hiraganaRow14);
         }
+        if (this.hiraganaSet15) {
+            initializeHiraganaRow15();
+            result.addAll(hiraganaRow15);
+        }
 
         return result;
 
     }
 
-    //EFFECTS: adds all hiragana rows 15-16 to result if they are enabled by user. Returns result after checking
-    //all hiragana rows 15-16
-    public ArrayList<Problem> generateAvailableHiragana3() {
+    //EFFECTS: adds hiragana row 16 to result if they are enabled by user. Returns result after checking
+    //hiragana row 16
+    public ArrayList<Problem> generateAvailableHiragana4() {
 
         ArrayList<Problem> result = new ArrayList<Problem>();
 
-        if (this.hiraganaSet15) {
-            initializeHiraganaRow15();
-            result.addAll(hiraganaRow15);
-        }
         if (this.hiraganaSet16) {
             initializeHiraganaRow16();
             result.addAll(hiraganaRow16);
@@ -353,19 +397,21 @@ public class ProblemSet {
 
     }
 
+
+
     //MODIFIES: this.hiraganaRow1
     //EFFECTS: initializes all hiragana in row 1
     public void initializeHiraganaRow1() {
 
-        Problem p1 = new Problem("あ","a");
+        Problem p1 = new Problem("あ", "a");
         hiraganaRow1.add(p1);
-        Problem p2 = new Problem("い","i");
+        Problem p2 = new Problem("い", "i");
         hiraganaRow1.add(p2);
-        Problem p3 = new Problem("う","u");
+        Problem p3 = new Problem("う", "u");
         hiraganaRow1.add(p3);
-        Problem p4 = new Problem("え","e");
+        Problem p4 = new Problem("え", "e");
         hiraganaRow1.add(p4);
-        Problem p5 = new Problem("お","o");
+        Problem p5 = new Problem("お", "o");
         hiraganaRow1.add(p5);
 
     }
@@ -374,15 +420,15 @@ public class ProblemSet {
     //EFFECTS: initializes all hiragana in row 2
     public void initializeHiraganaRow2() {
 
-        Problem p1 = new Problem("か","ka");
+        Problem p1 = new Problem("か", "ka");
         hiraganaRow2.add(p1);
-        Problem p2 = new Problem("き","ki");
+        Problem p2 = new Problem("き", "ki");
         hiraganaRow2.add(p2);
-        Problem p3 = new Problem("く","ku");
+        Problem p3 = new Problem("く", "ku");
         hiraganaRow2.add(p3);
-        Problem p4 = new Problem("け","ke");
+        Problem p4 = new Problem("け", "ke");
         hiraganaRow2.add(p4);
-        Problem p5 = new Problem("こ","ko");
+        Problem p5 = new Problem("こ", "ko");
         hiraganaRow2.add(p5);
 
     }
@@ -391,15 +437,15 @@ public class ProblemSet {
     //EFFECTS: initializes all hiragana in row 3
     public void initializeHiraganaRow3() {
 
-        Problem p1 = new Problem("さ","sa");
+        Problem p1 = new Problem("さ", "sa");
         hiraganaRow3.add(p1);
-        Problem p2 = new Problem("し","shi");
+        Problem p2 = new Problem("し", "shi");
         hiraganaRow3.add(p2);
-        Problem p3 = new Problem("す","su");
+        Problem p3 = new Problem("す", "su");
         hiraganaRow3.add(p3);
-        Problem p4 = new Problem("せ","se");
+        Problem p4 = new Problem("せ", "se");
         hiraganaRow3.add(p4);
-        Problem p5 = new Problem("そ","so");
+        Problem p5 = new Problem("そ", "so");
         hiraganaRow3.add(p5);
 
     }
@@ -408,15 +454,15 @@ public class ProblemSet {
     //EFFECTS: initializes all hiragana in row 4
     public void initializeHiraganaRow4() {
 
-        Problem p1 = new Problem("た","ta");
+        Problem p1 = new Problem("た", "ta");
         hiraganaRow4.add(p1);
-        Problem p2 = new Problem("ち","chi");
+        Problem p2 = new Problem("ち", "chi");
         hiraganaRow4.add(p2);
-        Problem p3 = new Problem("つ","tsu");
+        Problem p3 = new Problem("つ", "tsu");
         hiraganaRow4.add(p3);
-        Problem p4 = new Problem("て","te");
+        Problem p4 = new Problem("て", "te");
         hiraganaRow4.add(p4);
-        Problem p5 = new Problem("と","to");
+        Problem p5 = new Problem("と", "to");
         hiraganaRow4.add(p5);
 
     }
@@ -425,15 +471,15 @@ public class ProblemSet {
     //EFFECTS: initializes all hiragana in row 5
     public void initializeHiraganaRow5() {
 
-        Problem p1 = new Problem("な","na");
+        Problem p1 = new Problem("な", "na");
         hiraganaRow5.add(p1);
-        Problem p2 = new Problem("に","ni");
+        Problem p2 = new Problem("に", "ni");
         hiraganaRow5.add(p2);
-        Problem p3 = new Problem("ぬ","nu");
+        Problem p3 = new Problem("ぬ", "nu");
         hiraganaRow5.add(p3);
-        Problem p4 = new Problem("ね","ne");
+        Problem p4 = new Problem("ね", "ne");
         hiraganaRow5.add(p4);
-        Problem p5 = new Problem("の","no");
+        Problem p5 = new Problem("の", "no");
         hiraganaRow5.add(p5);
 
     }
@@ -442,15 +488,15 @@ public class ProblemSet {
     //EFFECTS: initializes all hiragana in row 6
     public void initializeHiraganaRow6() {
 
-        Problem p1 = new Problem("は","ha");
+        Problem p1 = new Problem("は", "ha");
         hiraganaRow6.add(p1);
-        Problem p2 = new Problem("ひ","hi");
+        Problem p2 = new Problem("ひ", "hi");
         hiraganaRow6.add(p2);
-        Problem p3 = new Problem("ふ","hu");
+        Problem p3 = new Problem("ふ", "hu");
         hiraganaRow6.add(p3);
-        Problem p4 = new Problem("へ","he");
+        Problem p4 = new Problem("へ", "he");
         hiraganaRow6.add(p4);
-        Problem p5 = new Problem("ほ","ho");
+        Problem p5 = new Problem("ほ", "ho");
         hiraganaRow6.add(p5);
 
     }
@@ -459,15 +505,15 @@ public class ProblemSet {
     //EFFECTS: initializes all hiragana in row 7
     public void initializeHiraganaRow7() {
 
-        Problem p1 = new Problem("ま","ma");
+        Problem p1 = new Problem("ま", "ma");
         hiraganaRow7.add(p1);
-        Problem p2 = new Problem("み","mi");
+        Problem p2 = new Problem("み", "mi");
         hiraganaRow7.add(p2);
-        Problem p3 = new Problem("む","mu");
+        Problem p3 = new Problem("む", "mu");
         hiraganaRow7.add(p3);
-        Problem p4 = new Problem("め","me");
+        Problem p4 = new Problem("め", "me");
         hiraganaRow7.add(p4);
-        Problem p5 = new Problem("も","mo");
+        Problem p5 = new Problem("も", "mo");
         hiraganaRow7.add(p5);
 
     }
@@ -476,11 +522,11 @@ public class ProblemSet {
     //EFFECTS: initializes all hiragana in row 8
     public void initializeHiraganaRow8() {
 
-        Problem p1 = new Problem("や","ya");
+        Problem p1 = new Problem("や", "ya");
         hiraganaRow8.add(p1);
-        Problem p2 = new Problem("ゆ","yu");
+        Problem p2 = new Problem("ゆ", "yu");
         hiraganaRow8.add(p2);
-        Problem p3 = new Problem("よ","yo");
+        Problem p3 = new Problem("よ", "yo");
         hiraganaRow8.add(p3);
 
     }
@@ -489,15 +535,15 @@ public class ProblemSet {
     //EFFECTS: initializes all hiragana in row 9
     public void initializeHiraganaRow9() {
 
-        Problem p1 = new Problem("ら","ra");
+        Problem p1 = new Problem("ら", "ra");
         hiraganaRow9.add(p1);
-        Problem p2 = new Problem("り","ri");
+        Problem p2 = new Problem("り", "ri");
         hiraganaRow9.add(p2);
-        Problem p3 = new Problem("る","ru");
+        Problem p3 = new Problem("る", "ru");
         hiraganaRow9.add(p3);
-        Problem p4 = new Problem("れ","re");
+        Problem p4 = new Problem("れ", "re");
         hiraganaRow9.add(p4);
-        Problem p5 = new Problem("ろ","ro");
+        Problem p5 = new Problem("ろ", "ro");
         hiraganaRow9.add(p5);
 
     }
@@ -506,9 +552,9 @@ public class ProblemSet {
     //EFFECTS: initializes all hiragana in row 10
     public void initializeHiraganaRow10() {
 
-        Problem p1 = new Problem("わ","wa");
+        Problem p1 = new Problem("わ", "wa");
         hiraganaRow10.add(p1);
-        Problem p2 = new Problem("を","wo");
+        Problem p2 = new Problem("を", "wo");
         hiraganaRow10.add(p2);
 
     }
@@ -517,7 +563,7 @@ public class ProblemSet {
     //EFFECTS: initializes all hiragana in row 11
     public void initializeHiraganaRow11() {
 
-        Problem p1 = new Problem("ん","n");
+        Problem p1 = new Problem("ん", "n");
         hiraganaRow11.add(p1);
 
     }
@@ -526,15 +572,15 @@ public class ProblemSet {
     //EFFECTS: initializes all hiragana in row 12
     public void initializeHiraganaRow12() {
 
-        Problem p1 = new Problem("が","ga");
+        Problem p1 = new Problem("が", "ga");
         hiraganaRow12.add(p1);
-        Problem p2 = new Problem("ぎ","gi");
+        Problem p2 = new Problem("ぎ", "gi");
         hiraganaRow12.add(p2);
-        Problem p3 = new Problem("ぐ","gu");
+        Problem p3 = new Problem("ぐ", "gu");
         hiraganaRow12.add(p3);
-        Problem p4 = new Problem("げ","ge");
+        Problem p4 = new Problem("げ", "ge");
         hiraganaRow12.add(p4);
-        Problem p5 = new Problem("ご","go");
+        Problem p5 = new Problem("ご", "go");
         hiraganaRow12.add(p5);
 
     }
@@ -543,15 +589,15 @@ public class ProblemSet {
     //EFFECTS: initializes all hiragana in row 13
     public void initializeHiraganaRow13() {
 
-        Problem p1 = new Problem("ざ","za");
+        Problem p1 = new Problem("ざ", "za");
         hiraganaRow13.add(p1);
-        Problem p2 = new Problem("じ","ji");
+        Problem p2 = new Problem("じ", "ji");
         hiraganaRow13.add(p2);
-        Problem p3 = new Problem("ず","zu");
+        Problem p3 = new Problem("ず", "zu");
         hiraganaRow13.add(p3);
-        Problem p4 = new Problem("ぜ","ze");
+        Problem p4 = new Problem("ぜ", "ze");
         hiraganaRow13.add(p4);
-        Problem p5 = new Problem("ぞ","zo");
+        Problem p5 = new Problem("ぞ", "zo");
         hiraganaRow13.add(p5);
 
     }
@@ -560,15 +606,15 @@ public class ProblemSet {
     //EFFECTS: initializes all hiragana in row 14
     public void initializeHiraganaRow14() {
 
-        Problem p1 = new Problem("だ","da");
+        Problem p1 = new Problem("だ", "da");
         hiraganaRow14.add(p1);
-        Problem p2 = new Problem("ぢ","ji");
+        Problem p2 = new Problem("ぢ", "ji");
         hiraganaRow14.add(p2);
-        Problem p3 = new Problem("づ","zu");
+        Problem p3 = new Problem("づ", "zu");
         hiraganaRow14.add(p3);
-        Problem p4 = new Problem("で","de");
+        Problem p4 = new Problem("で", "de");
         hiraganaRow14.add(p4);
-        Problem p5 = new Problem("ど","do");
+        Problem p5 = new Problem("ど", "do");
         hiraganaRow14.add(p5);
 
     }
@@ -577,15 +623,15 @@ public class ProblemSet {
     //EFFECTS: initializes all hiragana in row 15
     public void initializeHiraganaRow15() {
 
-        Problem p1 = new Problem("ば","ba");
+        Problem p1 = new Problem("ば", "ba");
         hiraganaRow15.add(p1);
-        Problem p2 = new Problem("び","bi");
+        Problem p2 = new Problem("び", "bi");
         hiraganaRow15.add(p2);
-        Problem p3 = new Problem("ぶ","bu");
+        Problem p3 = new Problem("ぶ", "bu");
         hiraganaRow15.add(p3);
-        Problem p4 = new Problem("べ","be");
+        Problem p4 = new Problem("べ", "be");
         hiraganaRow15.add(p4);
-        Problem p5 = new Problem("ぼ","bo");
+        Problem p5 = new Problem("ぼ", "bo");
         hiraganaRow15.add(p5);
 
     }
@@ -594,15 +640,15 @@ public class ProblemSet {
     //EFFECTS: initializes all hiragana in row 16
     public void initializeHiraganaRow16() {
 
-        Problem p1 = new Problem("ぱ","pa");
+        Problem p1 = new Problem("ぱ", "pa");
         hiraganaRow16.add(p1);
-        Problem p2 = new Problem("ぴ","pi");
+        Problem p2 = new Problem("ぴ", "pi");
         hiraganaRow16.add(p2);
-        Problem p3 = new Problem("ぷ","pu");
+        Problem p3 = new Problem("ぷ", "pu");
         hiraganaRow16.add(p3);
-        Problem p4 = new Problem("ぺ","pe");
+        Problem p4 = new Problem("ぺ", "pe");
         hiraganaRow16.add(p4);
-        Problem p5 = new Problem("ぽ","po");
+        Problem p5 = new Problem("ぽ", "po");
         hiraganaRow16.add(p5);
 
     }
@@ -610,21 +656,11 @@ public class ProblemSet {
     //MODIFIES: this.vocabFamily
     //EFFECTS: initializes all family vocab problems
     public void initializeVocabFamily() {
-        Problem p1 = new Problem("おとうさん","father");
+        Problem p1 = new Problem("おとうさん", "father");
         vocabFamily.add(p1);
-        Problem p2 = new Problem("おかあさん","mother");
+        Problem p2 = new Problem("おかあさん", "mother");
         vocabFamily.add(p2);
     }
-
-
-
-
-
-
-
-
-
-
 
 
 }

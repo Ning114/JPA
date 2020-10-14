@@ -7,7 +7,6 @@ public class Problem {
     public int score;
 
 
-
     //Creates a problem with the Japanese and English translation, as well as the score (default 0)
     public Problem(String japaneseProblem, String englishProblem) {
 
@@ -21,15 +20,13 @@ public class Problem {
     //Also sets score = 1 if the user gets the question correct. Returns false otherwise.
     public Boolean isCorrectEnglish(String answer) {
 
-       if (answer == this.englishProblem) {
-           this.score = 1;
-           return true;
-       }
-
-       else {
-           this.score = 0;
-           return false;
-       }
+        if (answer == this.englishProblem) {
+            this.score = 1;
+            return true;
+        } else {
+            this.score = 0;
+            return false;
+        }
 
     }
 
@@ -40,9 +37,7 @@ public class Problem {
         if (answer == this.japaneseProblem) {
             this.score = 1;
             return true;
-        }
-
-        else {
+        } else {
             this.score = 0;
             return false;
         }

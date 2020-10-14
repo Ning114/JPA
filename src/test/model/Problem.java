@@ -4,7 +4,7 @@ public class Problem {
 
     private String japaneseProblem;
     private String englishProblem;
-    private int score;
+    public int score;
 
 
 
@@ -46,6 +46,13 @@ public class Problem {
             this.score = 0;
             return false;
         }
+
+    }
+
+    //EFFECTS: returns this.score
+    public int getScore() {
+
+        return this.score;
 
     }
 

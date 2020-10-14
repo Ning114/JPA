@@ -205,7 +205,7 @@ public class ProblemSet {
         this.availableProblems.addAll(generateAvailableHiragana1());
         this.availableProblems.addAll(generateAvailableHiragana2());
         this.availableProblems.addAll(generateAvailableHiragana3());
-        //this.availableProblems.addAll(generateAvailableVocab());
+        this.availableProblems.addAll(generateAvailableVocab());
 
     }
 

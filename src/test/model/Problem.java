@@ -7,6 +7,7 @@ public class Problem {
     private int score;
 
 
+
     //Creates a problem with the Japanese and English translation, as well as the score (default 0)
     public Problem(String japaneseProblem, String englishProblem) {
 
@@ -47,4 +48,6 @@ public class Problem {
         }
 
     }
+
+
 }

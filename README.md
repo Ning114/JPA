@@ -32,10 +32,21 @@ in the future myself to practice!
 
 The things the user should be able to do include:
 
-- Choose what subject they want to study 
-- Choose which Hiragana/Katakana row they want to practice 
+- Choose what vocabulary topics they want to practice 
+(More vocabulary sets will be implemented down the line)
+- Choose which Hiragana row they want to practice
+- Choose which Katakana row they want to practice 
 - Choose the input type (display Japanese characters, type english or vice versa)
-- Choose which types of questions to be asked in each problem set
 - Choose if they want to be timed or not 
 - Provide feedback based off score, timed performance and past attempts
 - Run through a previously created problem set (Will be implemented in phase 2)
+
+The user stories I have finished implementing for phase 1 are:
+
+- Choose what vocabulary topics they want to practice 
+(More vocabulary sets will be implemented down the line)
+- Choose which Hiragana row they want to practice
+- Choose the input type (display Japanese characters, type english or vice versa)
+- Choose if they want to be timed or not 
+
+

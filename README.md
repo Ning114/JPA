@@ -44,6 +44,7 @@ The things the user should be able to do include:
 The user stories I have finished implementing for phase 1 are:
 
 - Choose what vocabulary topics they want to practice 
+(letting the user choose which types of X to add to Y)
 (More vocabulary sets will be implemented down the line)
 - Choose which Hiragana row they want to practice
 - Choose the input type (display Japanese characters, type english or vice versa)

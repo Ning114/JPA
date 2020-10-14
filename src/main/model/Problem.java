@@ -2,8 +2,8 @@ package model;
 
 public class Problem {
 
-    private String japaneseProblem;
-    private String englishProblem;
+    public String japaneseProblem;
+    public String englishProblem;
     public int score;
 
 

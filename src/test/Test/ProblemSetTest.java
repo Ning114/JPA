@@ -74,7 +74,7 @@ public class ProblemSetTest {
         //test case where it generates some rows, but not all
         ps1.hiraganaSet6 = false;
         assertEquals(15, ps1.generateAvailableHiragana2().size());
-        //test case where it genereates all rows
+        //test case where it generates all rows
         assertEquals(25, ps1.generateAvailableHiragana1().size());
 
     }

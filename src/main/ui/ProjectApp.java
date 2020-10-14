@@ -116,23 +116,33 @@ public class ProjectApp {
             startTimer();
         }
 
+
         for (Problem p : problemSetUi.problemSet) {
-            if (problemSetUi.displayType == "Japanese") {
+
+            if (problemSetUi.displayType == "japanese") {
                 System.out.println("Translate the following into Japanese: ");
                 System.out.println(p.englishProblem);
+                System.out.println(p.japaneseProblem);
                 String input1 = input.next();
-                if (p.isCorrectJapanese(input1)) {
+                System.out.println(input1);
+
+                if (p.japaneseProblem.equals(input1)) {
+                    p.score = 1;
                     System.out.println("Correct");
                 } else {
+                    p.score = 0;
                     System.out.println("Incorrect");
                 }
-            } else {
+            } else if (problemSetUi.displayType == "english") {
                 System.out.println("Translate the following into English: ");
                 System.out.println(p.japaneseProblem);
                 String input1 = input.next();
-                if (p.isCorrectEnglish(input1)) {
+
+                if (p.englishProblem.equals(input1)) {
+                    p.score = 1;
                     System.out.println("Correct");
                 } else {
+                    p.score = 0;
                     System.out.println("Incorrect");
                 }
 
@@ -213,6 +223,8 @@ public class ProjectApp {
     }
 
     @SuppressWarnings("checkstyle:MethodLength")
+    //MODIFIES: problemSetUi.hiraganaSet1-16, problemSetUi.vocabFamilySet
+    //EFFECTS: lets the user toggle on and off which subjects they want to appear in the problem set.
     public void createProblemSetPart2Continued1() {
 
         String input1 = input.next();
@@ -258,6 +270,7 @@ public class ProjectApp {
         }
 
     }
+
 
     public void createProblemSetPart2Continued2() {
 

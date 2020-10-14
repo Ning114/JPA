@@ -13,5 +13,10 @@ import java.util.ArrayList;
 public class ProblemSetTest {
 
 
+    @Test
+    public void getTotalScoreThisSetTest() {
+
+    }
+
 
 }

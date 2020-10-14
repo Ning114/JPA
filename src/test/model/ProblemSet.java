@@ -2,31 +2,32 @@ package model;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class ProblemSet {
 
-    private String displayType;
+    public String displayType;
     private int scoreThisSet;
     private int scoreThisSetTotal;
-    private ArrayList<Problem> problemSet;
-    private ArrayList<Problem> availableProblems;
+    public ArrayList<Problem> problemSet;
+    public ArrayList<Problem> availableProblems;
 
-    private Boolean hiraganaSet1;
-    private Boolean hiraganaSet2;
-    private Boolean hiraganaSet3;
-    private Boolean hiraganaSet4;
-    private Boolean hiraganaSet5;
-    private Boolean hiraganaSet6;
-    private Boolean hiraganaSet7;
-    private Boolean hiraganaSet8;
-    private Boolean hiraganaSet9;
-    private Boolean hiraganaSet10;
-    private Boolean hiraganaSet11;
-    private Boolean hiraganaSet12;
-    private Boolean hiraganaSet13;
-    private Boolean hiraganaSet14;
-    private Boolean hiraganaSet15;
-    private Boolean hiraganaSet16;
+    public Boolean hiraganaSet1;
+    public Boolean hiraganaSet2;
+    public Boolean hiraganaSet3;
+    public Boolean hiraganaSet4;
+    public Boolean hiraganaSet5;
+    public Boolean hiraganaSet6;
+    public Boolean hiraganaSet7;
+    public Boolean hiraganaSet8;
+    public Boolean hiraganaSet9;
+    public Boolean hiraganaSet10;
+    public Boolean hiraganaSet11;
+    public Boolean hiraganaSet12;
+    public Boolean hiraganaSet13;
+    public Boolean hiraganaSet14;
+    public Boolean hiraganaSet15;
+    public Boolean hiraganaSet16;
 
 
     private Boolean katakanaSet1;
@@ -46,13 +47,13 @@ public class ProblemSet {
     private Boolean katakanaSet15;
     private Boolean katakanaSet16;
 
-    private Boolean timeSet;
+    public Boolean timeSet;
 
-    private Boolean vocabFamilySet;
-    private Boolean vocabMajorsSet;
-    private Boolean vocabGreetingsSet;
-    private Boolean vocabPlacesSet;
-    private Boolean vocabThingsSet;
+    public Boolean vocabFamilySet;
+    public Boolean vocabMajorsSet;
+    public Boolean vocabGreetingsSet;
+    public Boolean vocabPlacesSet;
+    public Boolean vocabThingsSet;
 
 
     private ArrayList<Problem> hiraganaRow1;
@@ -89,11 +90,11 @@ public class ProblemSet {
     private ArrayList<Problem> katakanaRow15;
     private ArrayList<Problem> katakanaRow16;
 
-    private ArrayList<Problem> vocabFamily;
-    private ArrayList<Problem> vocabMajors;
-    private ArrayList<Problem> vocabGreetings;
-    private ArrayList<Problem> vocabPlaces;
-    private ArrayList<Problem> vocabThings;
+    public ArrayList<Problem> vocabFamily;
+    public ArrayList<Problem> vocabMajors;
+    public ArrayList<Problem> vocabGreetings;
+    public ArrayList<Problem> vocabPlaces;
+    public ArrayList<Problem> vocabThings;
 
 
 
@@ -148,7 +149,38 @@ public class ProblemSet {
         this.vocabPlacesSet = true;
         this.vocabThingsSet = true;
 
+        this.availableProblems = new ArrayList<Problem>();
+
         this.problemSet = new ArrayList<Problem>();
+        this.vocabFamily = new ArrayList<Problem>();
+        this.vocabMajors = new ArrayList<Problem>();
+        this.vocabGreetings = new ArrayList<Problem>();
+        this.vocabPlaces = new ArrayList<Problem>();
+        this.vocabThings = new ArrayList<Problem>();
+
+        this.hiraganaRow1 = new ArrayList<Problem>();
+        this.hiraganaRow2 = new ArrayList<Problem>();
+        this.hiraganaRow3 = new ArrayList<Problem>();
+        this.hiraganaRow4 = new ArrayList<Problem>();
+        this.hiraganaRow5 = new ArrayList<Problem>();
+        this.hiraganaRow6 = new ArrayList<Problem>();
+        this.hiraganaRow7 = new ArrayList<Problem>();
+        this.hiraganaRow8 = new ArrayList<Problem>();
+        this.hiraganaRow9 = new ArrayList<Problem>();
+        this.hiraganaRow10 = new ArrayList<Problem>();
+        this.hiraganaRow11 = new ArrayList<Problem>();
+        this.hiraganaRow12 = new ArrayList<Problem>();
+        this.hiraganaRow13 = new ArrayList<Problem>();
+        this.hiraganaRow14 = new ArrayList<Problem>();
+        this.hiraganaRow15 = new ArrayList<Problem>();
+        this.hiraganaRow16 = new ArrayList<Problem>();
+
+    }
+
+    //EFFECTS: returns this.displayType
+    public String getDisplayType() {
+
+        return this.displayType;
 
     }
 
@@ -181,9 +213,9 @@ public class ProblemSet {
     public Problem pickRandomProblem() {
 
         //(int)(Math.random() * (max - min + 1) + min);
-        int random = (int)(Math.random() * (availableProblems.size() - 0 + 1) + 0);
-
-        return availableProblems.get(random);
+        Random randomNumber = new Random();
+        //(int)(Math.random() * (availableProblems.size() - 0 + 1) + 0)
+        return availableProblems.get(randomNumber.nextInt(availableProblems.size()));
     }
 
 
@@ -200,7 +232,6 @@ public class ProblemSet {
     public void generateAvailableProblems() {
 
         //This will be the list of all available problems that can be added to the problem set.
-        this.availableProblems = new ArrayList<Problem>();
 
         this.availableProblems.addAll(generateAvailableHiragana1());
         this.availableProblems.addAll(generateAvailableHiragana2());

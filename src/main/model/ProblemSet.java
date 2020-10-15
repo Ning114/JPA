@@ -242,7 +242,6 @@ public class ProblemSet {
     //EFFECTS: Randomly picks a problem out of pool of given problems
     public Problem pickRandomProblem() {
 
-
         Random randomNumber = new Random();
 
         return availableProblems.get(randomNumber.nextInt(availableProblems.size()));

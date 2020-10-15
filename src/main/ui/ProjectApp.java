@@ -275,7 +275,6 @@ public class ProjectApp {
                 System.out.println("Vocabulary family set to: " + problemSetUi.vocabFamilySet);
                 input1 = input.next();
             } else if (input1.equals("4")) {
-                System.out.println("lets go!");
                 phase = 3;
                 createProblemSetPart2Continued2();
                 break;

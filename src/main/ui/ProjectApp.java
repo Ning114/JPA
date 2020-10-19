@@ -190,11 +190,15 @@ public class ProjectApp {
 
     //MODIFIES: this.startTime
     //EFFECTS: records the time when the timer first started
+    //CITATION: This method was created with the help of this post:
+    //https://stackoverflow.com/questions/10820033/make-a-simple-timer-in-java/14323134
     public void startTimer() {
         startTime = System.currentTimeMillis();
     }
 
     //EFFECTS: calculates the time elapsed in seconds and prints it out.
+    //CITATION: This method was created with the help of this post:
+    //https://stackoverflow.com/questions/10820033/make-a-simple-timer-in-java/14323134
     public void stopTimer() {
         long elapsedTime = System.currentTimeMillis() - startTime;
         long elapsedSeconds = elapsedTime / 1000;

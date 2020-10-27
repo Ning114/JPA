@@ -32,23 +32,20 @@ in the future myself to practice!
 
 The things the user should be able to do include:
 
+Phase 1:
 - Choose what vocabulary topics they want to practice 
 (More vocabulary sets will be implemented down the line)
-- Choose which Hiragana row they want to practice
+- Choose which Hiragana row they want to practice (implemented)
 - Choose which Katakana row they want to practice 
-- Choose the input type (display Japanese characters, type english or vice versa)
-- Choose if they want to be timed or not 
-- Provide feedback based off score, timed performance and past attempts
-- Run through a previously created problem set (Will be implemented in phase 2)
+- Choose the input type (display Japanese characters, type english or vice versa) (implemented)
+- Choose if they want to be timed or not (implemented)
+- Provide feedback based off score, timed performance and past attempts (implemented)
 
-The user stories I have finished implementing for phase 1 are:
+Phase 2:
+- Store previously created Problem sets in a list of ProblemSets
+- As a user, I want to be able to play through ProblemSet(s) I created previously 
 
-- Choose what vocabulary topics they want to practice 
-(letting the user choose which types of X to add to Y)
-(More vocabulary sets will be implemented down the line)
-- Choose which Hiragana row they want to practice
-- Choose the input type (display Japanese characters, type english or vice versa)
-- Choose if they want to be timed or not 
+
 
 - Phase 1 complete. Only minor bug remaining is that problemSet CAN contain duplicates. Will resolve later.
 

@@ -1,5 +1,9 @@
 package model;
 
+
+//CLASS LEVEL COMMENT:
+//Problem class represents a Japanese/English practice problem. It stores the English and Japanese translation of a
+//word, sentence or vocabulary of the problem, as well as the score attained on the problem.
 public class Problem {
 
     public String japaneseProblem;

@@ -7,6 +7,10 @@ import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+//CLASS LEVEL COMMENT:
+//ProjectApp class is the ui of the Project. ProjectApp contains methods that operate the application, from creating
+//new problem sets, playing them, etc.
+//The user interacts with this class. This class is run from main.
 public class ProjectApp {
 
     private Boolean timer;

@@ -9,6 +9,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
+
+//CLASS LEVEL COMMENT:
+//ProblemTest contains Tests for Problem class
 public class ProblemTest {
 
     Problem p1;

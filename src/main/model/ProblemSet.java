@@ -4,6 +4,14 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
+
+//CLASS LEVEL COMMENT:
+//ProblemSet class represents an ArrayList of Problems. Also contains the database for all problems i.e the
+//pre-determined problems are initialized here.
+//ProblemSets are generated based on user input and parts of the database.
+//ProblemSet also keeps track of:
+//The total score attained on a problem set
+//The maximum score attainable on a problem set
 public class ProblemSet {
 
     public String displayType;
@@ -113,7 +121,6 @@ public class ProblemSet {
         initializeVocabBool();
 
         this.timeSet = true;
-
 
         this.availableProblems = new ArrayList<Problem>();
 

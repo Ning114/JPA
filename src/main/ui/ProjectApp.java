@@ -5,6 +5,8 @@ import model.ProblemSet;
 
 import java.util.Scanner;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class ProjectApp {
 
     private Boolean timer;
@@ -92,6 +94,8 @@ public class ProjectApp {
     //them if yes. Calls playProblemSetPhase2 to continue the process
     public void playProblemSet() {
 
+        phase = 1;
+
         System.out.println("Would you like to be timed?");
         System.out.println(" ");
         System.out.println("1.) yes");
@@ -100,6 +104,7 @@ public class ProjectApp {
         String input1 = input.next();
 
         while (phase == 1) {
+
             if (input1.equals("1")) {
                 timer = true;
                 System.out.println("Start!");
@@ -126,10 +131,10 @@ public class ProjectApp {
     //EFFECTS: for each problem p in problemSetUi, print out the english/japanese question and ask for the answer.
     //After going through problemSet, returns score and time elapsed (if user wanted to be timed).
     public void playProblemSetPhase2() {
+
         if (timer) {
             startTimer();
         }
-
 
         for (Problem p : problemSetUi.problemSet) {
 
@@ -175,7 +180,6 @@ public class ProjectApp {
     private void problemSetJapanese(Problem p) {
         System.out.println("Translate the following into Japanese: ");
         System.out.println(p.englishProblem);
-        System.out.println(p.japaneseProblem);
         String input1 = input.next();
         System.out.println(input1);
 
@@ -211,7 +215,7 @@ public class ProjectApp {
 
         int sum = 0;
 
-        for (Problem p: problemSetUi.problemSet) {
+        for (Problem p : problemSetUi.problemSet) {
 
             sum += p.getScore();
 
@@ -223,6 +227,7 @@ public class ProjectApp {
     //MODIFIES: this.phase, this.problemSetUi.displayType
     //EFFECTS: asks the user for the desired input type, then changes the displayType of this.problemSetUi appropriately
     public void createProblemSetPart1() {
+        fullReset();
         System.out.println("Choose your input type: ");
         System.out.println("1.) japanese");
         System.out.println("2.) english");
@@ -243,6 +248,28 @@ public class ProjectApp {
             }
         }
         createProblemSetPart2();
+
+    }
+
+    //MODIFIES: problemSetUi, problemSetUi subjects, problemSetUi hiraganaRows, problemSetUi.displayType
+    //EFFECTS: resets problem set to default settings:
+    //problemSetUi.displayType = "japanese";
+    //empties problemSetUi list
+    //enables all subjects and hiragana rows
+    private void fullReset() {
+        problemSetUi.displayType = "japanese";
+        problemSetUi.problemSet.clear();
+        problemSetUi.availableProblems.clear();
+
+        if (!problemSetUi.hiraganaSet1) {
+            toggleHiraganaOneToEight();
+        }
+        if (!problemSetUi.hiraganaSet9) {
+            toggleHiraganaNineToSixteen();
+        }
+        if (!problemSetUi.vocabFamilySet) {
+            problemSetUi.vocabFamilySet = !problemSetUi.vocabFamilySet;
+        }
 
     }
 

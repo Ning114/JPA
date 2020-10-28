@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+//CITATION:
 //This entire class's implementation is heavily based off of the JsonReader class from the JsonSerializationDemo.
 public class JsonReader {
 

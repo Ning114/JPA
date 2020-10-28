@@ -1,10 +1,13 @@
 package model;
 
 
+import org.json.JSONObject;
+import persistence.Writeable;
+
 //CLASS LEVEL COMMENT:
 //Problem class represents a Japanese/English practice problem. It stores the English and Japanese translation of a
 //word, sentence or vocabulary of the problem, as well as the score attained on the problem.
-public class Problem {
+public class Problem implements Writeable {
 
     public String japaneseProblem;
     public String englishProblem;
@@ -56,4 +59,11 @@ public class Problem {
     }
 
 
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("japaneseProblem", japaneseProblem);
+        json.put("englishProblem", englishProblem);
+        return json;
+    }
 }

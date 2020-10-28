@@ -1,6 +1,9 @@
 package model;
 
-import java.lang.reflect.Array;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writeable;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -12,7 +15,7 @@ import java.util.Random;
 //ProblemSet also keeps track of:
 //The total score attained on a problem set
 //The maximum score attainable on a problem set
-public class ProblemSet {
+public class ProblemSet implements Writeable {
 
     public String displayType;
     private int scoreThisSet;
@@ -669,4 +672,22 @@ public class ProblemSet {
     }
 
 
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("displayType", displayType);
+        json.put("problemSet", problemSetToJson());
+        return json;
+    }
+
+    // EFFECTS: returns things in this ProblemSet as a JSON array
+    private JSONArray problemSetToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Problem p : problemSet) {
+            jsonArray.put(p.toJson());
+        }
+
+        return jsonArray;
+    }
 }

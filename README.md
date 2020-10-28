@@ -42,8 +42,8 @@ Phase 1:
 - Provide feedback based off score, timed performance and past attempts (implemented)
 
 Phase 2:
-- Store previously created Problem sets in a list of ProblemSets
-- As a user, I want to be able to play through ProblemSet(s) I created previously 
+- As a user, I want to be able to store created Problem sets to file
+- As a user, I want to be able to load and play through ProblemSet(s) I created previously 
 
 
 

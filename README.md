@@ -43,7 +43,7 @@ Phase 1:
 
 Phase 2:
 - As a user, I want to be able to store created Problem sets to file
-- As a user, I want to be able to load and play through ProblemSet(s) I created previously 
+- As a user, I want to be able to load and play through a ProblemSet I created previously 
 
 
 

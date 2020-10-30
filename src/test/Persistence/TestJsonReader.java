@@ -23,11 +23,11 @@ public class TestJsonReader extends JsonTest {
             //test passed
             return;
         }
-        fail("Exception should have been thrown");
+        fail("Exception should have been caught");
     }
 
     @Test
-    void testReaderEmptyWorkRoom() {
+    void testReaderEmptyProblemSet() {
         JsonReader reader = new JsonReader("./data/testReaderEmptyProblemSet.json");
         try {
             ProblemSet problemSet = reader.read();
@@ -39,7 +39,7 @@ public class TestJsonReader extends JsonTest {
     }
 
     @Test
-    void testReaderGeneralWorkRoom() {
+    void testReader() {
         JsonReader reader = new JsonReader("./data/testReader.json");
         try {
             ProblemSet problemSet = reader.read();
@@ -50,6 +50,7 @@ public class TestJsonReader extends JsonTest {
             assertEquals("mother", problemSet.problemSet.get(1).englishProblem);
             assertEquals("ぽ", problemSet.problemSet.get(2).japaneseProblem);
             assertEquals("po", problemSet.problemSet.get(2).englishProblem);
+            assertEquals(3, problemSet.problemSet.size());
 
         } catch (IOException e) {
             fail("File didn't read properly");

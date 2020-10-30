@@ -2,16 +2,124 @@
     "displayType": "japanese",
     "problemSet": [
         {
-            "japaneseProblem": "よ",
-            "englishProblem": "yo"
+            "japaneseProblem": "し",
+            "englishProblem": "shi"
         },
         {
-            "japaneseProblem": "て",
-            "englishProblem": "te"
+            "japaneseProblem": "だ",
+            "englishProblem": "da"
         },
         {
-            "japaneseProblem": "て",
-            "englishProblem": "te"
+            "japaneseProblem": "ひ",
+            "englishProblem": "hi"
+        },
+        {
+            "japaneseProblem": "や",
+            "englishProblem": "ya"
+        },
+        {
+            "japaneseProblem": "せ",
+            "englishProblem": "se"
+        },
+        {
+            "japaneseProblem": "ら",
+            "englishProblem": "ra"
+        },
+        {
+            "japaneseProblem": "ぱ",
+            "englishProblem": "pa"
+        },
+        {
+            "japaneseProblem": "を",
+            "englishProblem": "wo"
+        },
+        {
+            "japaneseProblem": "ぽ",
+            "englishProblem": "po"
+        },
+        {
+            "japaneseProblem": "き",
+            "englishProblem": "ki"
+        },
+        {
+            "japaneseProblem": "ぜ",
+            "englishProblem": "ze"
+        },
+        {
+            "japaneseProblem": "と",
+            "englishProblem": "to"
+        },
+        {
+            "japaneseProblem": "ま",
+            "englishProblem": "ma"
+        },
+        {
+            "japaneseProblem": "か",
+            "englishProblem": "ka"
+        },
+        {
+            "japaneseProblem": "ぶ",
+            "englishProblem": "bu"
+        },
+        {
+            "japaneseProblem": "こ",
+            "englishProblem": "ko"
+        },
+        {
+            "japaneseProblem": "い",
+            "englishProblem": "i"
+        },
+        {
+            "japaneseProblem": "え",
+            "englishProblem": "e"
+        },
+        {
+            "japaneseProblem": "ぐ",
+            "englishProblem": "gu"
+        },
+        {
+            "japaneseProblem": "ぢ",
+            "englishProblem": "ji"
+        },
+        {
+            "japaneseProblem": "あ",
+            "englishProblem": "a"
+        },
+        {
+            "japaneseProblem": "で",
+            "englishProblem": "de"
+        },
+        {
+            "japaneseProblem": "おかあさん",
+            "englishProblem": "mother"
+        },
+        {
+            "japaneseProblem": "な",
+            "englishProblem": "na"
+        },
+        {
+            "japaneseProblem": "つ",
+            "englishProblem": "tsu"
+        },
+        {
+            "japaneseProblem": "に",
+            "englishProblem": "ni"
+        },
+        {
+            "japaneseProblem": "め",
+            "englishProblem": "me"
+        },
+        {
+            "japaneseProblem": "ぞ",
+            "englishProblem": "zo"
+        },
+        {
+            "japaneseProblem": "へ",
+            "englishProblem": "he"
+        },
+        {
+            "japaneseProblem": "す",
+            "englishProblem": "su"
         }
     ]
 }

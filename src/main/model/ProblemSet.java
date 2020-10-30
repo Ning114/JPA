@@ -253,8 +253,9 @@ public class ProblemSet implements Writeable {
     public Problem pickRandomProblem() {
 
         Random randomNumber = new Random();
-
-        return availableProblems.get(randomNumber.nextInt(availableProblems.size()));
+        Problem p = availableProblems.get(randomNumber.nextInt(availableProblems.size()));
+        availableProblems.remove(p);
+        return p;
     }
 
 

@@ -672,6 +672,9 @@ public class ProblemSet implements Writeable {
     }
 
 
+    //modelled off toJson method in WorkRoom class from JsonSerializationDemo
+    // EFFECTS: creates json object with displayType under key "displayType",
+    // and the list of problems in the problemSet under key "problemSet"
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
@@ -680,7 +683,8 @@ public class ProblemSet implements Writeable {
         return json;
     }
 
-    // EFFECTS: returns things in this ProblemSet as a JSON array
+    //modelled off thingiesToJson method in WorkRoom class from JsonSerializationDemo
+    // EFFECTS: returns Problems in this ProblemSet as a JSON array
     private JSONArray problemSetToJson() {
         JSONArray jsonArray = new JSONArray();
 

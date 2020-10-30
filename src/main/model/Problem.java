@@ -59,6 +59,9 @@ public class Problem implements Writeable {
     }
 
 
+    //modelled after toJson class in thingy class from JsonSerializationDemo
+    // EFFECTS: creates json object with the japaneseProblem under key "japaneseProblem",
+    // and englishProblem under key "englishProblem"
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();

@@ -14,6 +14,8 @@ import org.json.JSONObject;
 
 //CITATION:
 //This entire class's implementation is heavily based off of the JsonReader class from the JsonSerializationDemo.
+//CLASS LEVEL COMMENT: This class is responsible for reading stored ProblemSets off our Json file and copying it's
+//fields onto a new problemSet object
 public class JsonReader {
 
     private String source;

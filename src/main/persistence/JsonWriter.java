@@ -9,7 +9,8 @@ import java.io.PrintWriter;
 
 //CITATION:
 //This class is heavily based off of the JsonWriter class from the JsonSerializationDemo.
-//The toJson() method added to ProblemSet is also based off of the one in the JsonSerializationDemo.
+//CLASS LEVEL COMMENT: This class is responsible for converting a problemSet into Json data and storing it into
+//our json file.
 public class JsonWriter {
 
     //TABS might need to be changed later on. I suspect it has to do with the index of the .json file being accessed

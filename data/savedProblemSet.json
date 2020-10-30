@@ -1,5 +1,25 @@
 {
-  "displayType": "japanese",
-  "problemSet": [
-  ]
+    "displayType": "japanese",
+    "problemSet": [
+        {
+            "japaneseProblem": "む",
+            "englishProblem": "mu"
+        },
+        {
+            "japaneseProblem": "ぴ",
+            "englishProblem": "pi"
+        },
+        {
+            "japaneseProblem": "や",
+            "englishProblem": "ya"
+        },
+        {
+            "japaneseProblem": "を",
+            "englishProblem": "wo"
+        },
+        {
+            "japaneseProblem": "れ",
+            "englishProblem": "re"
+        }
+    ]
 }

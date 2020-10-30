@@ -2,7 +2,12 @@ package ui;
 
 import model.Problem;
 import model.ProblemSet;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -13,11 +18,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 //The user interacts with this class. This class is run from main.
 public class ProjectApp {
 
+    private static final String JSON_STORE = "./data/savedProblemSet.json";
+
     private Boolean timer;
     private Long startTime;
     private Scanner input;
     private ProblemSet problemSetUi;
     private int phase;
+
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
 
     //EFFECTS: runs application
@@ -42,7 +52,7 @@ public class ProjectApp {
             command = command.toLowerCase();
 
 
-            if (command.equals("3")) {
+            if (command.equals("5")) {
                 keepGoing = false;
             } else {
                 processCommand(command);
@@ -67,6 +77,15 @@ public class ProjectApp {
             }
         } else if (command.equals("2")) {
             createProblemSetPart1();
+        } else if (command.equals("3")) {
+            loadSavedProblemSet();
+        } else if (command.equals("4")) {
+            if (problemSetUi.problemSet.isEmpty()) {
+                System.out.println("Your current problem set is empty. Please create one first.");
+            } else {
+                saveProblemSet();
+            }
+
         } else {
             System.out.println("Invalid selection");
         }
@@ -74,10 +93,41 @@ public class ProjectApp {
 
     }
 
+    //CITATION: Based off of saveWorkRoom method in WorkRoomApp class of JsonSerializationDemo
+    //EFFECTS: saves current problem set to data file.
+    private void saveProblemSet() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(problemSetUi);
+            jsonWriter.close();
+            System.out.println("Saved problem set to " + JSON_STORE + ".");
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    //CITATION: Based off of loadWorkRoom method in WorkRoomApp class of JsonSerializationDemo
+    //MODIFIES: this
+    //EFFECTS: loads saved problem set
+    private void loadSavedProblemSet() {
+        try {
+            problemSetUi = jsonReader.read();
+            //PRINT STATEMENT FOR DEBUGGING DIRECTLY BELOW
+            System.out.println(problemSetUi.problemSet.size());
+            System.out.println("Loaded problem set from " + JSON_STORE + ".");
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
+    }
+
+
     //MODIFIES: this.input, this.problemSetUi
     //EFFECTS: initiates input and problemSetUi fields. problemSetUi is initiated as "japanese" by default,
     //but can be changed by user in create problem set.
+    //Also initiates jsonWriter and jsonReader objects for persistence.
     public void initiate() {
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
         input = new Scanner(System.in);
         problemSetUi = new ProblemSet("japanese");
     }
@@ -89,7 +139,9 @@ public class ProjectApp {
         System.out.println("Options: (Please enter a number)");
         System.out.println("1.) play current problem set");
         System.out.println("2.) create new problem set");
-        System.out.println("3.) quit");
+        System.out.println("3.) load saved problem set");
+        System.out.println("4.) save current problem set");
+        System.out.println("5.) quit");
 
     }
 

@@ -2,24 +2,16 @@
     "displayType": "japanese",
     "problemSet": [
         {
-            "japaneseProblem": "む",
-            "englishProblem": "mu"
+            "japaneseProblem": "よ",
+            "englishProblem": "yo"
         },
         {
-            "japaneseProblem": "ぴ",
-            "englishProblem": "pi"
+            "japaneseProblem": "て",
+            "englishProblem": "te"
         },
         {
-            "japaneseProblem": "や",
-            "englishProblem": "ya"
-        },
-        {
-            "japaneseProblem": "を",
-            "englishProblem": "wo"
-        },
-        {
-            "japaneseProblem": "れ",
-            "englishProblem": "re"
+            "japaneseProblem": "て",
+            "englishProblem": "te"
         }
     ]
 }

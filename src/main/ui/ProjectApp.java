@@ -194,9 +194,9 @@ public class ProjectApp {
 
         for (Problem p : problemSetUi.problemSet) {
 
-            if (problemSetUi.displayType == "japanese") {
+            if (problemSetUi.displayType.equals("japanese")) {
                 problemSetJapanese(p);
-            } else if (problemSetUi.displayType == "english") {
+            } else if (problemSetUi.displayType.equals("english")) {
                 problemSetEnglish(p);
 
             }

@@ -239,7 +239,6 @@ public class ProblemSet implements Writeable {
             Problem randomProblem = pickRandomProblem();
             this.problemSet.add(randomProblem);
             //ensures that duplicate problems will not be added to the list.
-            this.availableProblems.remove(randomProblem);
 
         }
 
@@ -251,10 +250,12 @@ public class ProblemSet implements Writeable {
     //REQUIRES: size of list of available problems is >= 1
     //EFFECTS: Randomly picks a problem out of pool of given problems
     public Problem pickRandomProblem() {
+        int randomInt;
 
         Random randomNumber = new Random();
-        Problem p = availableProblems.get(randomNumber.nextInt(availableProblems.size()));
-        availableProblems.remove(p);
+        randomInt = randomNumber.nextInt(availableProblems.size());
+        Problem p = availableProblems.get(randomInt);
+        availableProblems.remove(randomInt);
         return p;
     }
 

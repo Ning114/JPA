@@ -33,7 +33,7 @@ in the future myself to practice!
 The things the user should be able to do include:
 
 Phase 1:
-- Choose what vocabulary topics they want to practice 
+- Choose what vocabulary topics they want to practice (kind of implemented)
 (More vocabulary sets will be implemented down the line)
 - Choose which Hiragana row they want to practice (implemented)
 - Choose which Katakana row they want to practice 
@@ -45,9 +45,30 @@ Phase 2:
 - As a user, I want to be able to store created Problem sets to file
 - As a user, I want to be able to load and play through a ProblemSet I created previously 
 
+Phase 3:
+For my GUI, I plan to implement the following features: 
+- Keep the feature of allowing the user to generate their own problem set
+- Allow the user to play through the problemset, just like in the console ui
+- Add a timer if the user chooses to be timed (Will implement if I have time)
+- Display active problem set (Scroll-down list of all problems in problemset)
+- Select problems to remove from the problemset in the Scroll-down list 
+- Retain the feature of allowing user to save or load problemsets
+- Add correct/incorrect sound effects as the user answers problems 
 
-
-- Phase 1 complete. Only minor bug remaining is that problemSet CAN contain duplicates. Will resolve later.
+GUI Format:
+1.) When you run main, you should be met with a singular menu with all the 
+options the UI had: 
+- Save problem set (Should be disabled if there is no active problem set)
+- Load problem set
+- Play active problem set (Should be disabled if there is no active data set)
+- Create new problem set
+- Quit
+2.) There should be a 2nd menu tab plane allows you to view the active
+problem set. This tab will display:
+- The problem set display type 
+- Each problem in the problem set in a scroll down menu, including both
+the english and Japanese versions of the problem
+- A remove button next to each problem, which will remove the problem if pressed
 
 
 

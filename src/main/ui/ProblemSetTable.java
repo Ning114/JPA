@@ -1,5 +1,8 @@
 package ui;
 
+import model.Problem;
+import model.ProblemSet;
+
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
@@ -8,30 +11,45 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+//CLASS LEVEL COMMENT: created using help from this post:
+//https://stackoverflow.com/questions/13833688/adding-jbutton-to-jtable
+//and the componentsTableDemoProject from:
+//https://docs.oracle.com/javase/tutorial/uiswing/examples/components/index.html
 
 public class ProblemSetTable extends AbstractTableModel {
 
 
-    private Object[] columnNames = {"japaneseProblem",
-            "englishProblem",
+    private Object[] columnNames = {"Japanese Problem",
+            "English Problem",
             " "};
 
     private Object[][] data = {
 
-            {"おとうさん", "father", "Delete Problem"},
-            {"おかあさん", "mother", "Delete Problem"},
-            {"たのしい", "fun", "Delete Problem"},
-            {"おもしろい", "interesting", "Delete Problem"},
+            //DATA FOR TESTING PURPOSES (!!!)
+//            {"おとうさん", "father", "Delete"},
+//            {"おかあさん", "mother", "Delete"},
+//            {"たのしい", "fun", "Delete"},
+//            {"おもしろい", "interesting", "Delete"},
+//            {"おもしろい", "interesting", "Delete"},
+//            {"おもしろい", "interesting", "Delete"},
 
     };
+
+    private ProblemSet activeProblemSet;
+
     private final JTable table;
+    private DefaultTableModel problemSetTable;
+
+    public int selectedRow;
 
     public ProblemSetTable() {
 
-        DefaultTableModel dm = new DefaultTableModel();
-        dm.setDataVector(data, columnNames);
+        activeProblemSet = new ProblemSet("japanese");
 
-        table = new JTable(dm);
+        problemSetTable = new DefaultTableModel();
+        problemSetTable.setDataVector(data, columnNames);
+
+        table = new JTable(problemSetTable);
         table.getColumn(" ").setCellRenderer(new ButtonRenderer());
         table.getColumn(" ").setCellEditor(new ButtonEditor(new JCheckBox()));
 
@@ -46,6 +64,20 @@ public class ProblemSetTable extends AbstractTableModel {
 
 
     }
+
+    //EFFECTS: fills the table with each problem in the active ProblemSet.
+    public void fillTable() {
+
+        for (Problem p: activeProblemSet.problemSet) {
+            String[] problemData = {p.japaneseProblem, p.englishProblem, "Delete"};
+
+            problemSetTable.addRow(problemData);
+
+        }
+
+
+    }
+
 
     public JTable getTable() {
         return this.table;
@@ -67,6 +99,8 @@ public class ProblemSetTable extends AbstractTableModel {
     public Object getValueAt(int row, int col) {
         return data[row][col];
     }
+
+
 
 
 
@@ -114,6 +148,8 @@ public class ProblemSetTable extends AbstractTableModel {
         @Override
         public Component getTableCellEditorComponent(JTable table, Object value,
                                                      boolean isSelected, int row, int column) {
+            selectedRow = row;
+
             if (isSelected) {
                 button.setForeground(table.getSelectionForeground());
                 button.setBackground(table.getSelectionBackground());
@@ -130,7 +166,10 @@ public class ProblemSetTable extends AbstractTableModel {
         @Override
         public Object getCellEditorValue() {
             if (isPushed) {
-                JOptionPane.showMessageDialog(button, label + ": Ouch!");
+                //DON'T FORGET TO ENABLE THIS LATER. COMMENTING OUT FOR DEBUGGING PURPOSES. (!!!)
+                //activeProblemSet.problemSet.remove(getIndexOfProblemAtPosition());
+                problemSetTable.removeRow(selectedRow);
+
             }
             isPushed = false;
             return label;
@@ -141,6 +180,22 @@ public class ProblemSetTable extends AbstractTableModel {
             isPushed = false;
             return super.stopCellEditing();
         }
+    }
+
+    //When deleting a problem from the table, this method finds the corresponding problem inside the active problem set
+    //and removes it.
+    private int getIndexOfProblemAtPosition() {
+
+        int index = 0;
+
+        for (Problem p: activeProblemSet.problemSet) {
+            if (p.japaneseProblem == problemSetTable.getValueAt(selectedRow, 1)) {
+                index = activeProblemSet.problemSet.indexOf(p);
+                break;
+            }
+        }
+
+        return index;
     }
 }
 

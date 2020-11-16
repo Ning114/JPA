@@ -19,11 +19,13 @@ public class Gui extends JPanel implements ActionListener {
     private JComponent createProblemSetButton;
     private JComponent loadProblemSetButton;
     private JComponent saveProblemSetButton;
-    private JComponent delete;
+
+    //The activeProblemSetTable gets put into the scrollPane so the table can scroll Poggers
+    private JScrollPane scrollPane;
 
     @SuppressWarnings("checkstyle:MethodLength")
     public Gui() {
-        super(new GridLayout(2, 1));
+        super(new GridLayout(1, 1));
 
         tabbedPane = new JTabbedPane();
         ImageIcon icon = createImageIcon("images/middle.gif");
@@ -47,7 +49,7 @@ public class Gui extends JPanel implements ActionListener {
         //This will be the tab with the table of problems in the active problem set
         initializeActiveProblemSetTable();
 
-        tabbedPane.addTab("Active Problem Set", icon, activeProblemSetTable,
+        tabbedPane.addTab("Active Problem Set", icon, scrollPane,
                 "Displays each problem in the current active problem set");
         tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
 
@@ -58,7 +60,9 @@ public class Gui extends JPanel implements ActionListener {
         tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
     }
 
-    //Initializes the table that will display each problem in the active data set
+    //EFFECTS: Initializes the table that will display each problem in the active data set.
+    //DON'T FORGET TO CALL problemSetTable.fillTable(); everytime you alter the active data set in some way (!!!)
+    //e.g.) Call this method after loading and creating a new problemSet.
     private void initializeActiveProblemSetTable() {
 
         ProblemSetTable problemSetTable = new ProblemSetTable();
@@ -68,7 +72,7 @@ public class Gui extends JPanel implements ActionListener {
         activeProblemSetTable.setFillsViewportHeight(true);
 
         //Create the scroll pane and add the table to it.
-        JScrollPane scrollPane = new JScrollPane(activeProblemSetTable);
+        scrollPane = new JScrollPane(activeProblemSetTable);
 
         //Add the scroll pane to this panel.
         add(scrollPane);
@@ -93,7 +97,6 @@ public class Gui extends JPanel implements ActionListener {
         createProblemSetButton = makeButton("Create new problem set");
         loadProblemSetButton = makeButton("Load saved problem set");
         saveProblemSetButton = makeButton("Save active problem set");
-        delete = makeButton("Remove problem");
     }
 
     protected JComponent makeTextPanel(String text) {

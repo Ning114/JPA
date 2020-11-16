@@ -74,6 +74,7 @@ public class ProblemSetTable extends AbstractTableModel {
 
     //EFFECTS: fills the table with each problem in the active ProblemSet.
     public void fillTable() {
+        resetTable();
         updateActiveProblemSet();
 
         for (Problem p: activeProblemSet.problemSet) {
@@ -84,6 +85,15 @@ public class ProblemSetTable extends AbstractTableModel {
         }
 
 
+    }
+
+    //MODIFIES: this.table
+    //EFFECTS: Clears every row in the table.
+    private void resetTable() {
+        for (int i = 0; i < table.getRowCount() - 1; i++) {
+            System.out.println(table.getRowCount());
+            table.remove(i);
+        }
     }
 
 
@@ -197,7 +207,7 @@ public class ProblemSetTable extends AbstractTableModel {
         int index = 0;
 
         for (Problem p: activeProblemSet.problemSet) {
-            if (p.japaneseProblem == problemSetTable.getValueAt(selectedRow, 1)) {
+            if (p.japaneseProblem.equals(problemSetTable.getValueAt(selectedRow, 1))) {
                 index = activeProblemSet.problemSet.indexOf(p);
                 break;
             }

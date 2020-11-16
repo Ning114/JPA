@@ -310,7 +310,8 @@ public class ProjectApp {
     //MODIFIES: problemSetUi, problemSetUi subjects, problemSetUi hiraganaRows, problemSetUi.displayType
     //EFFECTS: resets problem set to default settings:
     //problemSetUi.displayType = "japanese";
-    //empties problemSetUi list
+    //empties problemSetUi problemSet List
+    //empties problemSetUi availableProblems
     //enables all subjects and hiragana rows
     private void fullReset() {
         problemSetUi.displayType = "japanese";
@@ -410,6 +411,7 @@ public class ProjectApp {
     public void createProblemSetPart2Continued2() {
 
         problemSetUi.generateAvailableProblems();
+
         System.out.println("Enter the size of your problem set: ");
 
         int input1 = input.nextInt();
@@ -419,6 +421,7 @@ public class ProjectApp {
             if (input1 <= problemSetUi.availableProblems.size()) {
 
                 problemSetUi.generateProblemSet(input1);
+
                 System.out.println("Problem set successfully created");
                 phase = 1;
                 break;

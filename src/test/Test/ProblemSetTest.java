@@ -71,12 +71,14 @@ public class ProblemSetTest {
 
         //test case where it generates empty list because all rows are disabled
         ps1.hiraganaSet16 = false;
-        assertEquals(0, ps1.generateAvailableHiragana4().size());
+        assertEquals(0, ps1.generateAvailableHiragana6().size());
         //test case where it generates some rows, but not all
-        ps1.hiraganaSet6 = false;
-        assertEquals(15, ps1.generateAvailableHiragana2().size());
-        //test case where it generates all rows
-        assertEquals(25, ps1.generateAvailableHiragana1().size());
+        ps1.hiraganaSet3 = false;
+        assertEquals(10, ps1.generateAvailableHiragana1().size());
+        //test case where it generates all rows in 3 columns
+        ps1.hiraganaSet16 = true;
+        ps1.hiraganaSet3 = true;
+        assertEquals(15, ps1.generateAvailableHiragana1().size());
 
     }
 
@@ -164,28 +166,66 @@ public class ProblemSetTest {
         ps1.vocabThingsSet = false;
         ps1.vocabMajorsSet = false;
 
+        ps1.vocabFamilySet = true;
+
+        ps1.generateAvailableProblems();
+
         //case where problemSet < availableProblems
         ps1.generateProblemSet(1);
         assertEquals(1, ps1.problemSet.size());
 
         //reset ps1.problemSet
-        ps1.problemSet.remove(0);
+        ps1.problemSet.clear();
+        ps1.availableProblems.clear();
+        ps1.generateAvailableProblems();
 
         //case where problemSet = availableProblems
         ps1.generateProblemSet(2);
         assertEquals(2, ps1.problemSet.size());
 
+        //reset ps1.problemSet
+        ps1.problemSet.clear();
+        ps1.availableProblems.clear();
 
+        //enabling all sets for the next test.
+        ps1.hiraganaSet1 = true;
+        ps1.hiraganaSet2 = true;
+        ps1.hiraganaSet3 = true;
+        ps1.hiraganaSet4 = true;
+        ps1.hiraganaSet5 = true;
+        ps1.hiraganaSet6 = true;
+        ps1.hiraganaSet7 = true;
+        ps1.hiraganaSet8 = true;
+        ps1.hiraganaSet9 = true;
+        ps1.hiraganaSet10 = true;
+        ps1.hiraganaSet11 = true;
+        ps1.hiraganaSet12 = true;
+        ps1.hiraganaSet13 = true;
+        ps1.hiraganaSet14 = true;
+        ps1.hiraganaSet15 = true;
+        ps1.hiraganaSet16 = true;
+        ps1.vocabGreetingsSet = true;
+        ps1.vocabPlacesSet = true;
+        ps1.vocabThingsSet = true;
+        ps1.vocabMajorsSet = true;
+
+        //re-generating available problem set.
+        ps1.problemSet.clear();
+        ps1.availableProblems.clear();
+        ps1.generateAvailableProblems();
 
         //case where all subjects are enabled
-        ps2.generateProblemSet(5);
-        assertEquals(5, ps2.problemSet.size());
+        ps1.generateProblemSet(5);
+        assertEquals(5, ps1.problemSet.size());
 
-        ps2.problemSet.removeAll(ps2.problemSet);
+        //reset ps1.problemSet
+        ps1.problemSet.clear();
+        ps1.availableProblems.clear();
+        ps1.generateAvailableProblems();
 
         //case where problemSet = availableProblems
-        ps2.generateProblemSet(73);
-        assertEquals(73, ps2.problemSet.size());
+        ps1.generateProblemSet(73);
+        assertEquals(73, ps1.problemSet.size());
 
 
     }

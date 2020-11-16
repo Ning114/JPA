@@ -228,11 +228,10 @@ public class ProblemSet implements Writeable {
 
 
     //REQUIRES: at least one Subject set is enabled and size of problem set is <= size of availableProblems
+    // i.e REQUIRES user to have already called the generateAvailableProblems method once before.
     //MODIFIES: this.problemSet, this.availableProblems
     //EFFECTS: Generates a list of problems based off which subject sets are enabled.
     public ArrayList<Problem> generateProblemSet(int size) {
-
-        generateAvailableProblems();
 
         for (int i = 0; i < size; i++) {
 
@@ -278,6 +277,8 @@ public class ProblemSet implements Writeable {
         this.availableProblems.addAll(generateAvailableHiragana2());
         this.availableProblems.addAll(generateAvailableHiragana3());
         this.availableProblems.addAll(generateAvailableHiragana4());
+        this.availableProblems.addAll(generateAvailableHiragana5());
+        this.availableProblems.addAll(generateAvailableHiragana6());
         this.availableProblems.addAll(generateAvailableVocab());
 
     }
@@ -288,8 +289,10 @@ public class ProblemSet implements Writeable {
 
         ArrayList<Problem> result = new ArrayList<Problem>();
 
-        if (this.vocabFamilySet) {
+        if (this.vocabFamilySet && this.vocabFamily.isEmpty()) {
             initializeVocabFamily();
+            result.addAll(vocabFamily);
+        } else if (this.vocabFamilySet) {
             result.addAll(vocabFamily);
         }
 
@@ -298,94 +301,144 @@ public class ProblemSet implements Writeable {
     }
 
 
-    //EFFECTS: adds all hiragana rows 1-5 to result if they are enabled by user. Returns result after checking
-    //all hiragana rows 1-5
+    //EFFECTS: adds all hiragana rows 1-3 to result if they are enabled by user. Returns result after checking
+    //all hiragana rows 1-3
     public ArrayList<Problem> generateAvailableHiragana1() {
 
         ArrayList<Problem> result = new ArrayList<Problem>();
 
-        if (this.hiraganaSet1) {
+        if (this.hiraganaSet1 && this.hiraganaRow1.isEmpty()) {
             initializeHiraganaRow1();
             result.addAll(hiraganaRow1);
+        } else if (this.hiraganaSet1) {
+            result.addAll(hiraganaRow1);
         }
-        if (this.hiraganaSet2) {
+        if (this.hiraganaSet2 && this.hiraganaRow2.isEmpty()) {
             initializeHiraganaRow2();
             result.addAll(hiraganaRow2);
+        } else if (this.hiraganaSet2) {
+            result.addAll(hiraganaRow2);
         }
-        if (this.hiraganaSet3) {
+        if (this.hiraganaSet3 && this.hiraganaRow3.isEmpty()) {
             initializeHiraganaRow3();
             result.addAll(hiraganaRow3);
+        } else if (this.hiraganaSet3) {
+            result.addAll(hiraganaRow3);
         }
-        if (this.hiraganaSet4) {
-            initializeHiraganaRow4();
-            result.addAll(hiraganaRow4);
-        }
-        if (this.hiraganaSet5) {
-            initializeHiraganaRow5();
-            result.addAll(hiraganaRow5);
-        }
-
 
         return result;
 
     }
 
-    //EFFECTS: adds all hiragana rows 6-10 to result if they are enabled by user. Returns result after checking
-    //all hiragana rows 6-10
+    //EFFECTS: adds all hiragana rows 4-6 to result if they are enabled by user. Returns result after checking
+    //all hiragana rows 4-6
     public ArrayList<Problem> generateAvailableHiragana2() {
 
         ArrayList<Problem> result = new ArrayList<Problem>();
 
-        if (this.hiraganaSet6) {
+        if (this.hiraganaSet4 && this.hiraganaRow4.isEmpty()) {
+            initializeHiraganaRow4();
+            result.addAll(hiraganaRow4);
+        } else if (this.hiraganaSet4) {
+            result.addAll(hiraganaRow4);
+        }
+        if (this.hiraganaSet5 && this.hiraganaRow5.isEmpty()) {
+            initializeHiraganaRow5();
+            result.addAll(hiraganaRow5);
+        } else if (this.hiraganaSet5) {
+            result.addAll(hiraganaRow5);
+        }
+        if (this.hiraganaSet6 && this.hiraganaRow6.isEmpty()) {
             initializeHiraganaRow6();
             result.addAll(hiraganaRow6);
+        } else if (this.hiraganaSet6) {
+            result.addAll(hiraganaRow6);
         }
-        if (this.hiraganaSet7) {
-            initializeHiraganaRow7();
-            result.addAll(hiraganaRow7);
-        }
-        if (this.hiraganaSet8) {
-            initializeHiraganaRow8();
-            result.addAll(hiraganaRow8);
-        }
-        if (this.hiraganaSet9) {
-            initializeHiraganaRow9();
-            result.addAll(hiraganaRow9);
-        }
-        if (this.hiraganaSet10) {
-            initializeHiraganaRow10();
-            result.addAll(hiraganaRow10);
-        }
-
 
         return result;
 
     }
 
-    //EFFECTS: adds all hiragana rows 11-15 to result if they are enabled by user. Returns result after checking
-    //all hiragana rows 11-15
+    //EFFECTS: adds all hiragana rows 7-9 to result if they are enabled by user. Returns result after checking
+    //all hiragana rows 7-9
     public ArrayList<Problem> generateAvailableHiragana3() {
 
         ArrayList<Problem> result = new ArrayList<Problem>();
 
-        if (this.hiraganaSet11) {
+        if (this.hiraganaSet7 && this.hiraganaRow7.isEmpty()) {
+            initializeHiraganaRow7();
+            result.addAll(hiraganaRow7);
+        } else if (this.hiraganaSet7) {
+            result.addAll(hiraganaRow7);
+        }
+        if (this.hiraganaSet8 && this.hiraganaRow8.isEmpty()) {
+            initializeHiraganaRow8();
+            result.addAll(hiraganaRow8);
+        } else if (this.hiraganaSet8) {
+            result.addAll(hiraganaRow8);
+        }
+        if (this.hiraganaSet9 && this.hiraganaRow9.isEmpty()) {
+            initializeHiraganaRow9();
+            result.addAll(hiraganaRow9);
+        } else if (this.hiraganaSet9) {
+            result.addAll(hiraganaRow9);
+        }
+
+        return result;
+
+    }
+
+    //EFFECTS: adds all hiragana rows 10-12 to result if they are enabled by user. Returns result after checking
+    //all hiragana rows 10-12
+    public ArrayList<Problem> generateAvailableHiragana4() {
+
+        ArrayList<Problem> result = new ArrayList<Problem>();
+
+        if (this.hiraganaSet10 && this.hiraganaRow10.isEmpty()) {
+            initializeHiraganaRow10();
+            result.addAll(hiraganaRow10);
+        } else if (this.hiraganaSet10) {
+            result.addAll(hiraganaRow10);
+        }
+        if (this.hiraganaSet11 && this.hiraganaRow11.isEmpty()) {
             initializeHiraganaRow11();
             result.addAll(hiraganaRow11);
+        } else if (this.hiraganaSet11) {
+            result.addAll(hiraganaRow11);
         }
-        if (this.hiraganaSet12) {
+        if (this.hiraganaSet12 && this.hiraganaRow12.isEmpty()) {
             initializeHiraganaRow12();
             result.addAll(hiraganaRow12);
+        } else if (this.hiraganaSet12) {
+            result.addAll(hiraganaRow12);
         }
-        if (this.hiraganaSet13) {
+
+        return result;
+
+    }
+
+    //EFFECTS: adds all hiragana rows 13-15 to result if they are enabled by user. Returns result after checking
+    //all hiragana rows 13-15
+    public ArrayList<Problem> generateAvailableHiragana5() {
+
+        ArrayList<Problem> result = new ArrayList<Problem>();
+
+        if (this.hiraganaSet13 && this.hiraganaRow13.isEmpty()) {
             initializeHiraganaRow13();
             result.addAll(hiraganaRow13);
+        } else if (this.hiraganaSet13) {
+            result.addAll(hiraganaRow13);
         }
-        if (this.hiraganaSet14) {
+        if (this.hiraganaSet14 && this.hiraganaRow14.isEmpty()) {
             initializeHiraganaRow14();
             result.addAll(hiraganaRow14);
+        } else if (this.hiraganaSet14) {
+            result.addAll(hiraganaRow14);
         }
-        if (this.hiraganaSet15) {
+        if (this.hiraganaSet15 && this.hiraganaRow15.isEmpty()) {
             initializeHiraganaRow15();
+            result.addAll(hiraganaRow15);
+        } else if (this.hiraganaSet15) {
             result.addAll(hiraganaRow15);
         }
 
@@ -395,12 +448,14 @@ public class ProblemSet implements Writeable {
 
     //EFFECTS: adds hiragana row 16 to result if they are enabled by user. Returns result after checking
     //hiragana row 16
-    public ArrayList<Problem> generateAvailableHiragana4() {
+    public ArrayList<Problem> generateAvailableHiragana6() {
 
         ArrayList<Problem> result = new ArrayList<Problem>();
 
-        if (this.hiraganaSet16) {
+        if (this.hiraganaSet16 && this.hiraganaRow16.isEmpty()) {
             initializeHiraganaRow16();
+            result.addAll(hiraganaRow16);
+        } else if (this.hiraganaSet16) {
             result.addAll(hiraganaRow16);
         }
 

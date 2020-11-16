@@ -1,10 +1,17 @@
 package ui;
 
+import model.ProblemSet;
+import persistence.JsonReader;
+import persistence.JsonWriter;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+
+import static ui.ProjectApp.JSON_STORE;
 
 public class Gui extends JPanel implements ActionListener {
 
@@ -14,11 +21,17 @@ public class Gui extends JPanel implements ActionListener {
 
     private JPanel mainMenuPanel;
     private JTable activeProblemSetTable;
+    public ProblemSetTable problemSetTableField;
 
-    private JComponent playProblemSetButton;
-    private JComponent createProblemSetButton;
-    private JComponent loadProblemSetButton;
-    private JComponent saveProblemSetButton;
+    private JButton playProblemSetButton;
+    private JButton createProblemSetButton;
+    private JButton loadProblemSetButton;
+    private JButton saveProblemSetButton;
+
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
+
+    private ProblemSet activeProblemSet;
 
     //The activeProblemSetTable gets put into the scrollPane so the table can scroll Poggers
     private JScrollPane scrollPane;
@@ -65,8 +78,9 @@ public class Gui extends JPanel implements ActionListener {
     //e.g.) Call this method after loading and creating a new problemSet.
     private void initializeActiveProblemSetTable() {
 
-        ProblemSetTable problemSetTable = new ProblemSetTable();
+        ProblemSetTable problemSetTable = new ProblemSetTable(this);
 
+        this.problemSetTableField = problemSetTable;
         activeProblemSetTable = problemSetTable.getTable();
         activeProblemSetTable.setPreferredScrollableViewportSize(new Dimension(500, 70));
         activeProblemSetTable.setFillsViewportHeight(true);
@@ -96,7 +110,30 @@ public class Gui extends JPanel implements ActionListener {
         playProblemSetButton = makeButton("Play active problem set");
         createProblemSetButton = makeButton("Create new problem set");
         loadProblemSetButton = makeButton("Load saved problem set");
+        initializeLoadButtonFunctionality();
         saveProblemSetButton = makeButton("Save active problem set");
+    }
+
+    //CITATION: Based off of loadWorkRoom method in WorkRoomApp class of JsonSerializationDemo
+    //MODIFIES: this
+    //EFFECTS: loads saved problem set when action is triggered
+    private void initializeLoadButtonFunctionality() {
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
+
+        loadProblemSetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    activeProblemSet = jsonReader.read();
+
+                    problemSetTableField.fillTable();
+                    System.out.println("Loaded problem set from " + JSON_STORE + ".");
+                } catch (IOException exception) {
+                    System.out.println("Unable to read from file: " + JSON_STORE);
+                }
+            }
+        });
     }
 
     protected JComponent makeTextPanel(String text) {
@@ -108,16 +145,10 @@ public class Gui extends JPanel implements ActionListener {
         return panel;
     }
 
-    protected JComponent makeButton(String text) {
+    protected JButton makeButton(String text) {
 
         //creating play active problem set button and adding it to tab1
         final JButton button = new JButton(text);
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                //what goes in here is what happens when the play problem set button is pressed. Should open a
-                //new tab which runs the user through a problem playing process.
-            }
-        });
 
         return button;
 
@@ -160,5 +191,10 @@ public class Gui extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+    }
+
+    //EFFECTS: returns the current active data set
+    public ProblemSet getActiveProblemSet() {
+        return this.activeProblemSet;
     }
 }

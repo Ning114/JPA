@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 //The user interacts with this class. This class is run from main.
 public class ProjectApp {
 
-    private static final String JSON_STORE = "./data/savedProblemSet.json";
+    public static final String JSON_STORE = "./data/savedProblemSet.json";
 
     private Boolean timer;
     private Long startTime;

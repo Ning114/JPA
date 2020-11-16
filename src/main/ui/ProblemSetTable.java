@@ -35,16 +35,18 @@ public class ProblemSetTable extends AbstractTableModel {
 
     };
 
-    private ProblemSet activeProblemSet;
+    public ProblemSet activeProblemSet;
 
     private final JTable table;
     private DefaultTableModel problemSetTable;
 
     public int selectedRow;
 
-    public ProblemSetTable() {
+    private Gui gui;
 
-        activeProblemSet = new ProblemSet("japanese");
+    public ProblemSetTable(Gui gui) {
+
+        this.gui = gui;
 
         problemSetTable = new DefaultTableModel();
         problemSetTable.setDataVector(data, columnNames);
@@ -65,8 +67,14 @@ public class ProblemSetTable extends AbstractTableModel {
 
     }
 
+    //EFFECTS: Updates the active problem set to reflect what it is in GUI.
+    public void updateActiveProblemSet() {
+        this.activeProblemSet = this.gui.getActiveProblemSet();
+    }
+
     //EFFECTS: fills the table with each problem in the active ProblemSet.
     public void fillTable() {
+        updateActiveProblemSet();
 
         for (Problem p: activeProblemSet.problemSet) {
             String[] problemData = {p.japaneseProblem, p.englishProblem, "Delete"};
@@ -167,7 +175,7 @@ public class ProblemSetTable extends AbstractTableModel {
         public Object getCellEditorValue() {
             if (isPushed) {
                 //DON'T FORGET TO ENABLE THIS LATER. COMMENTING OUT FOR DEBUGGING PURPOSES. (!!!)
-                //activeProblemSet.problemSet.remove(getIndexOfProblemAtPosition());
+                activeProblemSet.problemSet.remove(getIndexOfProblemAtPosition());
                 problemSetTable.removeRow(selectedRow);
 
             }

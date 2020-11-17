@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import static ui.ProjectApp.JSON_STORE;
@@ -112,6 +113,7 @@ public class Gui extends JPanel implements ActionListener {
         loadProblemSetButton = makeButton("Load saved problem set");
         initializeLoadButtonFunctionality();
         saveProblemSetButton = makeButton("Save active problem set");
+        initializeSaveButtonFunctionality();
     }
 
     //CITATION: Based off of loadWorkRoom method in WorkRoomApp class of JsonSerializationDemo
@@ -131,6 +133,27 @@ public class Gui extends JPanel implements ActionListener {
                     System.out.println("Loaded problem set from " + JSON_STORE + ".");
                 } catch (IOException exception) {
                     System.out.println("Unable to read from file: " + JSON_STORE);
+                }
+            }
+        });
+    }
+
+    //CITATION: Based off of saveWorkRoom method in WorkRoomApp class of JsonSerializationDemo
+    //EFFECTS: loads saved problem set when action is triggered
+    private void initializeSaveButtonFunctionality() {
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
+
+        saveProblemSetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    jsonWriter.open();
+                    jsonWriter.write(activeProblemSet);
+                    jsonWriter.close();
+                    System.out.println("Saved problem set to " + JSON_STORE + ".");
+                } catch (FileNotFoundException exception) {
+                    System.out.println("Unable to write to file: " + JSON_STORE);
                 }
             }
         });

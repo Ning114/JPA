@@ -207,7 +207,7 @@ public class ProblemSetTable extends AbstractTableModel {
         int index = 0;
 
         for (Problem p: activeProblemSet.problemSet) {
-            if (p.japaneseProblem.equals(problemSetTable.getValueAt(selectedRow, 1))) {
+            if (p.japaneseProblem.equals(problemSetTable.getValueAt(selectedRow, 0))) {
                 index = activeProblemSet.problemSet.indexOf(p);
                 break;
             }

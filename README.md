@@ -70,5 +70,8 @@ problem set. This tab will display:
 the english and Japanese versions of the problem
 - A remove button next to each problem, which will remove the problem if pressed
 
-
-
+Phase 4:
+I unintentionally made some progress on phase 4 because I had to implement
+a bidirectional relationship of sorts for my Gui and ProjectApp classes.
+I will probably have to do the same when I create the play problem set and
+create problem set parts of the Gui. 

@@ -1,5 +1,6 @@
 package ui;
 
+import javafx.scene.control.RadioButton;
 import model.ProblemSet;
 import persistence.JsonReader;
 import persistence.JsonWriter;
@@ -16,6 +17,8 @@ import static ui.ProjectApp.JSON_STORE;
 
 public class Gui extends JPanel implements ActionListener {
 
+    private final JComponent titleHiraganaSet1;
+    private final JComponent titleHiraganaSet2;
     private JComponent titleTextBox;
     private JTabbedPane tabbedPane;
     private JPanel controls;
@@ -23,11 +26,22 @@ public class Gui extends JPanel implements ActionListener {
     private JPanel mainMenuPanel;
     private JTable activeProblemSetTable;
     public ProblemSetTable problemSetTableField;
+    public JPanel createNewProblemSetTab;
 
     private JButton playProblemSetButton;
     private JButton createProblemSetButton;
     private JButton loadProblemSetButton;
     private JButton saveProblemSetButton;
+
+    private JRadioButton hiraganaSet1False;
+    private JRadioButton hiraganaSet1True;
+    ButtonGroup hiraganaSet1Buttons = new ButtonGroup();
+    private JRadioButton hiraganaSet2False;
+    private JRadioButton hiraganaSet2True;
+    ButtonGroup hiraganaSet2Buttons = new ButtonGroup();
+    private JRadioButton vocabFamilyFalse;
+    private JRadioButton vocabFamilyTrue;
+    ButtonGroup vocabFamilyButtons = new ButtonGroup();
 
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
@@ -36,6 +50,9 @@ public class Gui extends JPanel implements ActionListener {
 
     //The activeProblemSetTable gets put into the scrollPane so the table can scroll Poggers
     private JScrollPane scrollPane;
+
+
+    private JComponent titleTextBox2;
 
     @SuppressWarnings("checkstyle:MethodLength")
     public Gui() {
@@ -46,6 +63,10 @@ public class Gui extends JPanel implements ActionListener {
 
         //title of application
         titleTextBox = makeTextPanel("Welcome to the Japanese Hiragana + Katakana Practice application!");
+        titleTextBox2 = makeTextPanel("Create a new problem set:");
+
+        titleHiraganaSet1 = makeTextPanel("Hiragana set 1");
+        titleHiraganaSet2 = makeTextPanel("Hiragana set 2");
 
         controls = new JPanel();
         controls.setLayout(new GridLayout(4, 1));
@@ -54,6 +75,8 @@ public class Gui extends JPanel implements ActionListener {
         initializeButtons();
 
         initializeMainMenuPanel();
+
+        initializeCreateProblemSetPanel();
 
         tabbedPane.addTab("Main Menu", icon, mainMenuPanel,
                 "Main Menu");
@@ -67,11 +90,46 @@ public class Gui extends JPanel implements ActionListener {
                 "Displays each problem in the current active problem set");
         tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
 
+        tabbedPane.addTab("Create New Problem Set", icon, createNewProblemSetTab,
+                "Create a new problem set");
+        tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
+
         //Add the tabbed pane to this panel.
         add(tabbedPane);
 
         //The following line enables to use scrolling tabs.
         tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+    }
+
+    private void initializeCreateProblemSetPanel() {
+        createNewProblemSetTab = new JPanel();
+        createNewProblemSetTab.setLayout(new GridLayout(1, 1));
+
+        titleTextBox2.setAlignmentY(TOP_ALIGNMENT);
+        createNewProblemSetTab.add(titleTextBox2);
+        initializeRadioButtons();
+        createNewProblemSetTab.add(titleHiraganaSet1);
+        createNewProblemSetTab.add(hiraganaSet1False);
+        createNewProblemSetTab.add(hiraganaSet1True);
+        createNewProblemSetTab.add(titleHiraganaSet2);
+        createNewProblemSetTab.add(hiraganaSet2False);
+        createNewProblemSetTab.add(hiraganaSet2True);
+
+
+    }
+
+    private void initializeRadioButtons() {
+        hiraganaSet1False = makeRadioButton("Disable set");
+        hiraganaSet1True = makeRadioButton("Enable set");
+
+        hiraganaSet1Buttons.add(hiraganaSet1False);
+        hiraganaSet1Buttons.add(hiraganaSet1True);
+
+        hiraganaSet2False = makeRadioButton("Disable set");
+        hiraganaSet2True = makeRadioButton("Enable set");
+
+        hiraganaSet2Buttons.add(hiraganaSet2False);
+        hiraganaSet2Buttons.add(hiraganaSet2True);
     }
 
     //EFFECTS: Initializes the table that will display each problem in the active data set.
@@ -115,6 +173,7 @@ public class Gui extends JPanel implements ActionListener {
         saveProblemSetButton = makeButton("Save active problem set");
         initializeSaveButtonFunctionality();
     }
+
 
     //CITATION: Based off of loadWorkRoom method in WorkRoomApp class of JsonSerializationDemo
     //MODIFIES: this
@@ -172,6 +231,15 @@ public class Gui extends JPanel implements ActionListener {
 
         //creating play active problem set button and adding it to tab1
         final JButton button = new JButton(text);
+
+        return button;
+
+    }
+
+    protected JRadioButton makeRadioButton(String text) {
+
+        //creating play active problem set button and adding it to tab1
+        final JRadioButton button = new JRadioButton(text);
 
         return button;
 

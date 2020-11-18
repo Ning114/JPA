@@ -319,7 +319,7 @@ public class Gui extends JPanel implements ActionListener {
                     String text = problemSetSize.getText();
                     problemSize = Integer.parseInt(text);
                     activeProblemSet.generateProblemSet(problemSize);
-                    activeProblemSetTable.repaint();
+                    problemSetTableField.fillTable();
                 }
             }
         });

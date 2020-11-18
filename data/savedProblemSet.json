@@ -2,15 +2,23 @@
     "displayType": "japanese",
     "problemSet": [
         {
-            "japaneseProblem": "り",
-            "englishProblem": "ri"
+            "japaneseProblem": "ぞ",
+            "englishProblem": "zo"
         },
         {
-            "japaneseProblem": "び",
-            "englishProblem": "bi"
+            "japaneseProblem": "ば",
+            "englishProblem": "ba"
         },
         {
-            "japaneseProblem": "ず",
+            "japaneseProblem": "ろ",
+            "englishProblem": "ro"
+        },
+        {
+            "japaneseProblem": "じ",
+            "englishProblem": "ji"
+        },
+        {
+            "japaneseProblem": "づ",
             "englishProblem": "zu"
         }
     ]

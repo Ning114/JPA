@@ -249,6 +249,7 @@ public class Gui extends JPanel implements ActionListener {
     }
 
     public void initializeHiraganaSet1ButtonFunctionality() {
+        hiraganaSet1True.setSelected(true);
         hiraganaSet1True.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -270,6 +271,7 @@ public class Gui extends JPanel implements ActionListener {
     }
 
     public void initializeHiraganaSet2ButtonFunctionality() {
+        hiraganaSet2True.setSelected(true);
         hiraganaSet2True.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -291,6 +293,7 @@ public class Gui extends JPanel implements ActionListener {
     }
 
     public void initializeVocabFamilySetButtonFunctionality() {
+        vocabFamilyTrue.setSelected(true);
         vocabFamilyTrue.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -328,6 +331,7 @@ public class Gui extends JPanel implements ActionListener {
     }
 
     public void initializeDisplayTypeButtonFunctionality() {
+        displayTypeJapanese.setSelected(true);
         displayTypeJapanese.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

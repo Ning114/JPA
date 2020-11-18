@@ -1,6 +1,5 @@
 package ui;
 
-import javafx.scene.control.RadioButton;
 import model.ProblemSet;
 import persistence.JsonReader;
 import persistence.JsonWriter;
@@ -42,9 +41,13 @@ public class Gui extends JPanel implements ActionListener {
     private JRadioButton vocabFamilyFalse;
     private JRadioButton vocabFamilyTrue;
     ButtonGroup vocabFamilyButtons = new ButtonGroup();
+    private JRadioButton displayTypeJapanese;
+    private JRadioButton displayTypeEnglish;
+    ButtonGroup displayTypeButtons = new ButtonGroup();
 
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
+
 
     private ProblemSet activeProblemSet;
 
@@ -54,16 +57,26 @@ public class Gui extends JPanel implements ActionListener {
 
     private JComponent titleTextBox2;
 
+    private JTextField problemSetSize;
+    private final String newline = "\n";
+    private JTextField textField;
+    private JTextArea textArea;
+    private int problemSize;
+    private JComponent problemSetSizeTextPanel;
+
+
     @SuppressWarnings("checkstyle:MethodLength")
     public Gui() {
         super(new GridLayout(1, 1));
+
+        activeProblemSet = new ProblemSet("japanese");
 
         tabbedPane = new JTabbedPane();
         ImageIcon icon = createImageIcon("images/middle.gif");
 
         //title of application
         titleTextBox = makeTextPanel("Welcome to the Japanese Hiragana + Katakana Practice application!");
-        titleTextBox2 = makeTextPanel("Create a new problem set:");
+        titleTextBox2 = makeTextPanel("Create a new problem set (All sets are enabled be default):");
 
         titleHiraganaSet1 = makeTextPanel("Hiragana set 1");
         titleHiraganaSet2 = makeTextPanel("Hiragana set 2");
@@ -101,22 +114,107 @@ public class Gui extends JPanel implements ActionListener {
         tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
     }
 
+    @SuppressWarnings("checkstyle:MethodLength")
     private void initializeCreateProblemSetPanel() {
         createNewProblemSetTab = new JPanel();
-        createNewProblemSetTab.setLayout(new GridLayout(1, 1));
+        createNewProblemSetTab.setLayout(new GridLayout(12, 1));
 
-        titleTextBox2.setAlignmentY(TOP_ALIGNMENT);
         createNewProblemSetTab.add(titleTextBox2);
         initializeRadioButtons();
+        JPanel hiraganaSet1Panel = new JPanel();
+        hiraganaSet1Panel.setLayout(new FlowLayout());
+
+        hiraganaSet1Panel.add(hiraganaSet1False);
+        hiraganaSet1Panel.add(hiraganaSet1True);
+
+        JPanel hiraganaSet2Panel = new JPanel();
+        hiraganaSet1Panel.setLayout(new FlowLayout());
+
+        hiraganaSet2Panel.add(hiraganaSet2False);
+        hiraganaSet2Panel.add(hiraganaSet2True);
+
+        JPanel vocabSetFamilyPanel = new JPanel();
+        vocabSetFamilyPanel.setLayout(new FlowLayout());
+
+        vocabSetFamilyPanel.add(vocabFamilyFalse);
+        vocabSetFamilyPanel.add(vocabFamilyTrue);
+
+        JPanel displayTypePanel = new JPanel();
+        displayTypePanel.setLayout(new FlowLayout());
+
+        displayTypePanel.add(displayTypeJapanese);
+        displayTypePanel.add(displayTypeEnglish);
+
+
+        createNewProblemSetTab.add(makeTextPanel("Input type"));
+        createNewProblemSetTab.add(displayTypePanel);
         createNewProblemSetTab.add(titleHiraganaSet1);
-        createNewProblemSetTab.add(hiraganaSet1False);
-        createNewProblemSetTab.add(hiraganaSet1True);
+        createNewProblemSetTab.add(hiraganaSet1Panel);
         createNewProblemSetTab.add(titleHiraganaSet2);
-        createNewProblemSetTab.add(hiraganaSet2False);
-        createNewProblemSetTab.add(hiraganaSet2True);
+        createNewProblemSetTab.add(hiraganaSet2Panel);
+        createNewProblemSetTab.add(makeTextPanel("Vocab Family Set"));
+        createNewProblemSetTab.add(vocabSetFamilyPanel);
+
+        initiateProblemSetSizeTextField();
+
+        problemSetSizeTextPanel = makeTextPanel("Enter the size of your problem set (Must be size <= "
+                + activeProblemSet.availableProblems.size() + "):");
+        createNewProblemSetTab.add(problemSetSizeTextPanel);
+        createNewProblemSetTab.add(problemSetSize);
+
+        createProblemSetButton = makeButton("Create Problem Set");
+        initializeCreateProblemSetButtonFunctionality();
+        createNewProblemSetTab.add(createProblemSetButton);
 
 
     }
+
+    public void updateMaxProblemSetSize() {
+        activeProblemSet.availableProblems.clear();
+        activeProblemSet.generateAvailableProblems();
+        problemSetSizeTextPanel = makeTextPanel("Enter the size of your problem set (Must be size <= "
+                + activeProblemSet.availableProblems.size() + "):");
+        problemSetSizeTextPanel.update(problemSetSizeTextPanel.getGraphics());
+        createNewProblemSetTab.update(createNewProblemSetTab.getGraphics());
+    }
+
+    //MODIFIES: problemSetUi, problemSetUi subjects, problemSetUi hiraganaRows, problemSetUi.displayType
+    //EFFECTS: resets problem set to default settings:
+    //problemSetUi.displayType = "japanese";
+    //empties problemSetUi problemSet List
+    //empties problemSetUi availableProblems
+    //enables all subjects and hiragana rows
+    private void fullReset() {
+        activeProblemSet.displayType = "japanese";
+        activeProblemSet.problemSet.clear();
+        activeProblemSet.availableProblems.clear();
+
+        if (!activeProblemSet.hiraganaSet1) {
+            toggleHiraganaOneToEight(true);
+        }
+        if (!activeProblemSet.hiraganaSet9) {
+            toggleHiraganaNineToSixteen(true);
+        }
+        if (!activeProblemSet.vocabFamilySet) {
+            activeProblemSet.vocabFamilySet = true;
+        }
+
+    }
+
+    //EFFECTS: creates the text field in which the user inputs the size of their problem set before hitting create
+    private void initiateProblemSetSizeTextField() {
+
+        problemSetSize = new JTextField(activeProblemSet.availableProblems.size());
+        problemSetSize.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String text = problemSetSize.getText();
+                problemSize = Integer.parseInt(text);
+
+            }
+        });
+    }
+
 
     private void initializeRadioButtons() {
         hiraganaSet1False = makeRadioButton("Disable set");
@@ -130,7 +228,146 @@ public class Gui extends JPanel implements ActionListener {
 
         hiraganaSet2Buttons.add(hiraganaSet2False);
         hiraganaSet2Buttons.add(hiraganaSet2True);
+
+        vocabFamilyFalse = makeRadioButton("Disable set");
+        vocabFamilyTrue = makeRadioButton("Enable set");
+
+        vocabFamilyButtons.add(vocabFamilyFalse);
+        vocabFamilyButtons.add(vocabFamilyTrue);
+
+        displayTypeJapanese = makeRadioButton("Japanese");
+        displayTypeEnglish = makeRadioButton("English");
+
+        displayTypeButtons.add(displayTypeJapanese);
+        displayTypeButtons.add(displayTypeEnglish);
+
+        initializeHiraganaSet1ButtonFunctionality();
+        initializeHiraganaSet2ButtonFunctionality();
+        initializeVocabFamilySetButtonFunctionality();
+        initializeDisplayTypeButtonFunctionality();
+        initializeDisplayTypeButtonFunctionality();
     }
+
+    public void initializeHiraganaSet1ButtonFunctionality() {
+        hiraganaSet1True.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                toggleHiraganaOneToEight(true);
+
+                updateMaxProblemSetSize();
+
+            }
+        });
+        hiraganaSet1False.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                toggleHiraganaOneToEight(false);
+
+                updateMaxProblemSetSize();
+
+            }
+        });
+    }
+
+    public void initializeHiraganaSet2ButtonFunctionality() {
+        hiraganaSet2True.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                toggleHiraganaNineToSixteen(true);
+
+                updateMaxProblemSetSize();
+
+            }
+        });
+        hiraganaSet2False.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                toggleHiraganaNineToSixteen(false);
+
+                updateMaxProblemSetSize();
+
+            }
+        });
+    }
+
+    public void initializeVocabFamilySetButtonFunctionality() {
+        vocabFamilyTrue.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                activeProblemSet.vocabFamilySet = true;
+
+                updateMaxProblemSetSize();
+
+            }
+        });
+        vocabFamilyFalse.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                activeProblemSet.vocabFamilySet = false;
+
+                updateMaxProblemSetSize();
+
+            }
+        });
+    }
+
+    public void initializeCreateProblemSetButtonFunctionality() {
+        createProblemSetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (problemSize <= activeProblemSet.availableProblems.size()) {
+                    String text = problemSetSize.getText();
+                    problemSize = Integer.parseInt(text);
+                    activeProblemSet.generateProblemSet(problemSize);
+                    activeProblemSetTable.repaint();
+                }
+            }
+        });
+
+
+    }
+
+    public void initializeDisplayTypeButtonFunctionality() {
+        displayTypeJapanese.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                activeProblemSet.displayType = "japanese";
+            }
+        });
+        displayTypeEnglish.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                activeProblemSet.displayType = "english";
+            }
+        });
+    }
+
+    //MODIFIES: problemSetUi.hiraganaSet1-8
+    //EFFECTS: changes all hiraganaSets 1-8 to the given boolean value (false/true)
+    private void toggleHiraganaOneToEight(Boolean bool) {
+        activeProblemSet.hiraganaSet1 = bool;
+        activeProblemSet.hiraganaSet2 = bool;
+        activeProblemSet.hiraganaSet3 = bool;
+        activeProblemSet.hiraganaSet4 = bool;
+        activeProblemSet.hiraganaSet5 = bool;
+        activeProblemSet.hiraganaSet6 = bool;
+        activeProblemSet.hiraganaSet7 = bool;
+        activeProblemSet.hiraganaSet8 = bool;
+    }
+
+    //MODIFIES: problemSetUi.hiraganaSet9-16
+    //EFFECTS: changes all hiraganaSets 9-16 to the given boolean value (false/true)
+    private void toggleHiraganaNineToSixteen(Boolean bool) {
+        activeProblemSet.hiraganaSet9 = bool;
+        activeProblemSet.hiraganaSet10 = bool;
+        activeProblemSet.hiraganaSet11 = bool;
+        activeProblemSet.hiraganaSet12 = bool;
+        activeProblemSet.hiraganaSet13 = bool;
+        activeProblemSet.hiraganaSet14 = bool;
+        activeProblemSet.hiraganaSet15 = bool;
+        activeProblemSet.hiraganaSet16 = bool;
+    }
+
 
     //EFFECTS: Initializes the table that will display each problem in the active data set.
     //DON'T FORGET TO CALL problemSetTable.fillTable(); everytime you alter the active data set in some way (!!!)
@@ -138,6 +375,7 @@ public class Gui extends JPanel implements ActionListener {
     private void initializeActiveProblemSetTable() {
 
         ProblemSetTable problemSetTable = new ProblemSetTable(this);
+
 
         this.problemSetTableField = problemSetTable;
         activeProblemSetTable = problemSetTable.getTable();
@@ -158,16 +396,12 @@ public class Gui extends JPanel implements ActionListener {
 
         mainMenuPanel.add(titleTextBox);
         //Add buttons to experiment with Grid Layout
-        mainMenuPanel.add(playProblemSetButton);
-        mainMenuPanel.add(createProblemSetButton);
         mainMenuPanel.add(loadProblemSetButton);
         mainMenuPanel.add(saveProblemSetButton);
     }
 
     private void initializeButtons() {
         //creating menu buttons
-        playProblemSetButton = makeButton("Play active problem set");
-        createProblemSetButton = makeButton("Create new problem set");
         loadProblemSetButton = makeButton("Load saved problem set");
         initializeLoadButtonFunctionality();
         saveProblemSetButton = makeButton("Save active problem set");

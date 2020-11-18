@@ -67,6 +67,8 @@ public class ProblemSetTable extends AbstractTableModel {
 
     }
 
+
+
     //EFFECTS: Updates the active problem set to reflect what it is in GUI.
     public void updateActiveProblemSet() {
         this.activeProblemSet = this.gui.getActiveProblemSet();

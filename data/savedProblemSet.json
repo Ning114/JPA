@@ -1,45 +1,17 @@
 {
-    "displayType": "english",
+    "displayType": "japanese",
     "problemSet": [
         {
-            "japaneseProblem": "き",
-            "englishProblem": "ki"
+            "japaneseProblem": "り",
+            "englishProblem": "ri"
         },
         {
-            "japaneseProblem": "か",
-            "englishProblem": "ka"
+            "japaneseProblem": "び",
+            "englishProblem": "bi"
         },
         {
-            "japaneseProblem": "す",
-            "englishProblem": "su"
-        },
-        {
-            "japaneseProblem": "た",
-            "englishProblem": "ta"
-        },
-        {
-            "japaneseProblem": "お",
-            "englishProblem": "o"
-        },
-        {
-            "japaneseProblem": "な",
-            "englishProblem": "na"
-        },
-        {
-            "japaneseProblem": "む",
-            "englishProblem": "mu"
-        },
-        {
-            "japaneseProblem": "し",
-            "englishProblem": "shi"
-        },
-        {
-            "japaneseProblem": "おとうさん",
-            "englishProblem": "father"
-        },
-        {
-            "japaneseProblem": "い",
-            "englishProblem": "i"
+            "japaneseProblem": "ず",
+            "englishProblem": "zu"
         }
     ]
 }

@@ -11,7 +11,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-//CLASS LEVEL COMMENT: created using help from this post:
+//CLASS LEVEL COMMENT: ProblemSetTable handles creating the functionality in our activeProblemSetTable, which displays
+//every problem in the active problem set, and allows the user to delete any problem they want.
+
+//CITATION: created using help from this post:
 //https://stackoverflow.com/questions/13833688/adding-jbutton-to-jtable
 //and the componentsTableDemoProject from:
 //https://docs.oracle.com/javase/tutorial/uiswing/examples/components/index.html
@@ -44,6 +47,8 @@ public class ProblemSetTable extends AbstractTableModel {
 
     private Gui gui;
 
+    //EFFECTS: Creates an empty problemSetTable and it's functionality. Takes a GUI field because
+    // it needs to access the activeProblemSet field.
     public ProblemSetTable(Gui gui) {
 
         this.gui = gui;
@@ -59,21 +64,23 @@ public class ProblemSetTable extends AbstractTableModel {
         JScrollPane scroll = new JScrollPane(table);
 
         table.setPreferredScrollableViewportSize(table.getPreferredSize());
-        //thanks mKorbel +1 http://stackoverflow.com/questions/10551995/how-to-set-jscrollpane-layout-to-be-the-same-as-jtable
+        //thanks mKorbel +1
+        //http://stackoverflow.com/questions/10551995/how-to-set-jscrollpane-layout-to-be-the-same-as-jtable
 
         table.getColumnModel().getColumn(0).setPreferredWidth(100);
         //so buttons will fit and not be shown butto..
-
 
     }
 
 
 
+    //MODIFIES: this
     //EFFECTS: Updates the active problem set to reflect what it is in GUI.
     public void updateActiveProblemSet() {
         this.activeProblemSet = this.gui.getActiveProblemSet();
     }
 
+    //MODIFIES: this
     //EFFECTS: fills the table with each problem in the active ProblemSet.
     public void fillTable() {
         resetTable();
@@ -99,6 +106,7 @@ public class ProblemSetTable extends AbstractTableModel {
     }
 
 
+    //EFFECTS: returns this.table
     public JTable getTable() {
         return this.table;
     }
@@ -106,16 +114,19 @@ public class ProblemSetTable extends AbstractTableModel {
 
 
     @Override
+    //EFFECTS: returns this.data.length
     public int getRowCount() {
         return data.length;
     }
 
     @Override
+    //EFFECTS: returns this.columnNames.length
     public int getColumnCount() {
         return columnNames.length;
     }
 
     @Override
+    //EFFECTS: returns the value in the specified row and column
     public Object getValueAt(int row, int col) {
         return data[row][col];
     }
@@ -126,6 +137,7 @@ public class ProblemSetTable extends AbstractTableModel {
 
 //
 
+    //EFFECTS: method helps render a button into the table.
     class ButtonRenderer extends JButton implements TableCellRenderer {
 
         public ButtonRenderer() {
@@ -147,6 +159,7 @@ public class ProblemSetTable extends AbstractTableModel {
         }
     }
 
+    //EFFECTS: initializes and adds functionality to the button that is in the table.
     class ButtonEditor extends DefaultCellEditor {
 
         protected JButton button;
@@ -166,6 +179,7 @@ public class ProblemSetTable extends AbstractTableModel {
         }
 
         @Override
+        //EFFECTS: Get component on table at specified row and column
         public Component getTableCellEditorComponent(JTable table, Object value,
                                                      boolean isSelected, int row, int column) {
             selectedRow = row;
@@ -184,6 +198,7 @@ public class ProblemSetTable extends AbstractTableModel {
         }
 
         @Override
+        //EFFECTS: adds functionality to buttons: deletes the corresponding problem in the problemset when pressed
         public Object getCellEditorValue() {
             if (isPushed) {
                 //DON'T FORGET TO ENABLE THIS LATER. COMMENTING OUT FOR DEBUGGING PURPOSES. (!!!)
@@ -202,8 +217,7 @@ public class ProblemSetTable extends AbstractTableModel {
         }
     }
 
-    //When deleting a problem from the table, this method finds the corresponding problem inside the active problem set
-    //and removes it.
+    //EFFECTS: gets the index of the problem in the problemset. Helper method for getCellEditorValue.
     private int getIndexOfProblemAtPosition() {
 
         int index = 0;

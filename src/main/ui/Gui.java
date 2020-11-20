@@ -19,6 +19,9 @@ import javax.sound.sampled.AudioSystem;
 
 import static ui.ProjectApp.JSON_STORE;
 
+
+//CLASS LEVEL COMMENT: GUI class is the main class that calls all the helper methods needed to create the GUI and
+//it's components.
 public class Gui extends JPanel implements ActionListener {
 
     private final JComponent titleHiraganaSet1;
@@ -32,6 +35,7 @@ public class Gui extends JPanel implements ActionListener {
     public ProblemSetTable problemSetTableField;
     public JPanel createNewProblemSetTab;
 
+    //Ran out of time for implementing playProblemSetFeature :(
     private JButton playProblemSetButton;
     private JButton createProblemSetButton;
     private JButton loadProblemSetButton;
@@ -71,6 +75,7 @@ public class Gui extends JPanel implements ActionListener {
 
 
 
+    //EFFECTS: main constructor for GUI. Calls all the helper methods needed to create GUI.
     public Gui() {
         super(new GridLayout(1, 1));
 
@@ -90,7 +95,7 @@ public class Gui extends JPanel implements ActionListener {
         controls.setLayout(new GridLayout(4, 1));
 
 
-        initializeButtons();
+        initializePersistenceButtons();
 
         initializeMainMenuPanel();
 
@@ -107,6 +112,10 @@ public class Gui extends JPanel implements ActionListener {
         initializeTabPanes(icon);
     }
 
+    //CITATION: made with help from:
+    //https://docs.oracle.com/javase/tutorial/uiswing/examples/components/index.html
+    //MODIFIES: this
+    //EFFECTS: creates the tab panes to put on our main JFrame
     private void initializeTabPanes(ImageIcon icon) {
         tabbedPane.addTab("Active Problem Set", icon, scrollPane,
                 "Displays each problem in the current active problem set");
@@ -124,6 +133,8 @@ public class Gui extends JPanel implements ActionListener {
     }
 
 
+    //MODIFIES: this
+    //EFFECTS: starts the construction process for creating the createProblemSetTab.
     private void initializeCreateProblemSetPanel() {
         createNewProblemSetTab = new JPanel();
         createNewProblemSetTab.setLayout(new GridLayout(12, 1));
@@ -164,6 +175,23 @@ public class Gui extends JPanel implements ActionListener {
 
     }
 
+
+    //MODIFIES: this
+    //EFFECTS: constructs the createProblemSetTab and slaps the needed panels onto it for functionality
+    private void constructCreateProblemSetTab(JPanel hiraganaSet1Panel, JPanel hiraganaSet2Panel,
+                                              JPanel vocabSetFamilyPanel, JPanel displayTypePanel) {
+        createNewProblemSetTab.add(makeTextPanel("Input type"));
+        createNewProblemSetTab.add(displayTypePanel);
+        createNewProblemSetTab.add(titleHiraganaSet1);
+        createNewProblemSetTab.add(hiraganaSet1Panel);
+        createNewProblemSetTab.add(titleHiraganaSet2);
+        createNewProblemSetTab.add(hiraganaSet2Panel);
+        createNewProblemSetTab.add(makeTextPanel("Vocab Family Set"));
+        createNewProblemSetTab.add(vocabSetFamilyPanel);
+    }
+
+    //MODIFIES: this
+    //EFFECTS: part 2 for constructing createProblemSetTab. Called after constructCreateProblemSetTab
     private void constructCreateProblemSetTab2() {
         problemSetSizeTextPanel = makeTextPanel("Enter the size of your problem set (Must be size <= "
                 + activeProblemSet.availableProblems.size() + "):");
@@ -175,17 +203,8 @@ public class Gui extends JPanel implements ActionListener {
         createNewProblemSetTab.add(createProblemSetButton);
     }
 
-    private void constructCreateProblemSetTab(JPanel hiraganaSet1Panel, JPanel hiraganaSet2Panel, JPanel vocabSetFamilyPanel, JPanel displayTypePanel) {
-        createNewProblemSetTab.add(makeTextPanel("Input type"));
-        createNewProblemSetTab.add(displayTypePanel);
-        createNewProblemSetTab.add(titleHiraganaSet1);
-        createNewProblemSetTab.add(hiraganaSet1Panel);
-        createNewProblemSetTab.add(titleHiraganaSet2);
-        createNewProblemSetTab.add(hiraganaSet2Panel);
-        createNewProblemSetTab.add(makeTextPanel("Vocab Family Set"));
-        createNewProblemSetTab.add(vocabSetFamilyPanel);
-    }
-
+    //MODIFIES: this
+    //EFFECTS: regenerates the availableproblems problemset by generating a new one everytime a change is made
     public void updateMaxProblemSetSize() {
         activeProblemSet.availableProblems.clear();
         activeProblemSet.generateAvailableProblems();
@@ -218,6 +237,7 @@ public class Gui extends JPanel implements ActionListener {
 
     }
 
+    //MODIFIES: this
     //EFFECTS: creates the text field in which the user inputs the size of their problem set before hitting create
     private void initiateProblemSetSizeTextField() {
 
@@ -233,6 +253,8 @@ public class Gui extends JPanel implements ActionListener {
     }
 
 
+    //MODIFIES: this
+    //EFFECTS: initializes the button sets
     private void initializeRadioButtons() {
         hiraganaSet1False = makeRadioButton("Disable set");
         hiraganaSet1True = makeRadioButton("Enable set");
@@ -265,6 +287,8 @@ public class Gui extends JPanel implements ActionListener {
         initializeDisplayTypeButtonFunctionality();
     }
 
+    //MODIFIES: this
+    //EFFECTS: initializes the button functionality for hiraganaset1
     public void initializeHiraganaSet1ButtonFunctionality() {
         hiraganaSet1True.setSelected(true);
         hiraganaSet1True.addActionListener(new ActionListener() {
@@ -287,6 +311,8 @@ public class Gui extends JPanel implements ActionListener {
         });
     }
 
+    //MODIFIES: this
+    //EFFECTS: Initializes button functionality for hiraganaset2
     public void initializeHiraganaSet2ButtonFunctionality() {
         hiraganaSet2True.setSelected(true);
         hiraganaSet2True.addActionListener(new ActionListener() {
@@ -309,6 +335,8 @@ public class Gui extends JPanel implements ActionListener {
         });
     }
 
+    //MODIFIES: this
+    //EFFECTS: Initializes button functionality for vocabfamilyset
     public void initializeVocabFamilySetButtonFunctionality() {
         vocabFamilyTrue.setSelected(true);
         vocabFamilyTrue.addActionListener(new ActionListener() {
@@ -331,6 +359,11 @@ public class Gui extends JPanel implements ActionListener {
         });
     }
 
+    //MODIFIES: this
+    //EFFECTS: Initializes button functionality for create problem set button. If button is pressed,
+    //it should do nothing if problem size
+    //entered is larger than activeProblemSet.availableProblems size.
+    //Plays a sound when problem set created successfully
     public void initializeCreateProblemSetButtonFunctionality() {
         createProblemSetButton.addActionListener(new ActionListener() {
             @Override
@@ -348,6 +381,8 @@ public class Gui extends JPanel implements ActionListener {
 
     }
 
+    //MODIFIES: this
+    //EFFECTS: Initializes displaytypebutton functionality
     public void initializeDisplayTypeButtonFunctionality() {
         displayTypeJapanese.setSelected(true);
         displayTypeJapanese.addActionListener(new ActionListener() {
@@ -391,7 +426,8 @@ public class Gui extends JPanel implements ActionListener {
     }
 
 
-    //EFFECTS: Initializes the table that will display each problem in the active data set.
+    //MODIFIES: this
+    //EFFECTS: Initializes/creates new table that will display each problem in the active data set.
     //DON'T FORGET TO CALL problemSetTable.fillTable(); everytime you alter the active data set in some way (!!!)
     //e.g.) Call this method after loading and creating a new problemSet.
     private void initializeActiveProblemSetTable() {
@@ -412,6 +448,8 @@ public class Gui extends JPanel implements ActionListener {
 
     }
 
+    //MODIFIES: this
+    //EFFECTS: creates the main menu panel. Also slaps the title panel and load/save problem set buttons onto it.
     private void initializeMainMenuPanel() {
         mainMenuPanel = new JPanel();
         mainMenuPanel.setLayout(new GridLayout(5, 1));
@@ -422,7 +460,9 @@ public class Gui extends JPanel implements ActionListener {
         mainMenuPanel.add(saveProblemSetButton);
     }
 
-    private void initializeButtons() {
+    //MODIFIES: this
+    //EFFECTS: initializes the buttons required for persistence, as well as their functionality
+    private void initializePersistenceButtons() {
         //creating menu buttons
         loadProblemSetButton = makeButton("Load saved problem set");
         initializeLoadButtonFunctionality();
@@ -455,6 +495,7 @@ public class Gui extends JPanel implements ActionListener {
     }
 
     //CITATION: Based off of saveWorkRoom method in WorkRoomApp class of JsonSerializationDemo
+    //MODIFIES: this
     //EFFECTS: loads saved problem set when action is triggered
     private void initializeSaveButtonFunctionality() {
         jsonWriter = new JsonWriter(JSON_STORE);
@@ -476,6 +517,9 @@ public class Gui extends JPanel implements ActionListener {
         });
     }
 
+    //CITATION: taken from demo project TabbedPaneDemoProject from:
+    //https://docs.oracle.com/javase/tutorial/uiswing/examples/components/index.html
+    //EFFECTS: helper function for creating text panels
     protected JComponent makeTextPanel(String text) {
         JPanel panel = new JPanel(false);
         JLabel filler = new JLabel(text);
@@ -485,6 +529,9 @@ public class Gui extends JPanel implements ActionListener {
         return panel;
     }
 
+    //CITATION: taken from demo project TabbedPaneDemoProject from:
+    //https://docs.oracle.com/javase/tutorial/uiswing/examples/components/index.html
+    //EFFECTS: helper function for creating a button with the given label
     protected JButton makeButton(String text) {
 
         //creating play active problem set button and adding it to tab1
@@ -494,6 +541,9 @@ public class Gui extends JPanel implements ActionListener {
 
     }
 
+    //CITATION: based off of the makeButton helper method taken from demo project TabbedPaneDemoProject from:
+    //https://docs.oracle.com/javase/tutorial/uiswing/examples/components/index.html
+    //EFFECTS: helper function for creating a radio button with the given label
     protected JRadioButton makeRadioButton(String text) {
 
         //creating play active problem set button and adding it to tab1
@@ -504,11 +554,11 @@ public class Gui extends JPanel implements ActionListener {
     }
 
 
-    //Removing the tab icons for now. May add later.
 
-    /**
-     * Returns an ImageIcon, or null if the path was invalid.
-     */
+    //I can't create tab panels without this so I just have to leave it in lol
+    //CITATION: taken from demo project TabbedPaneDemoProject from:
+    //https://docs.oracle.com/javase/tutorial/uiswing/examples/components/index.html
+    //EFFECTS: creates an image icon object taken from the given path.
     protected static ImageIcon createImageIcon(String path) {
         java.net.URL imgURL = Gui.class.getResource(path);
         if (imgURL != null) {
@@ -519,11 +569,9 @@ public class Gui extends JPanel implements ActionListener {
         }
     }
 
-    /**
-     * Create the GUI and show it.  For thread safety,
-     * this method should be invoked from
-     * the event dispatch thread.
-     */
+    //CITATION: I don't remember exactly where this was taken from, but most likely the TabbedPaneDemoProject from:
+    //https://docs.oracle.com/javase/tutorial/uiswing/examples/components/index.html
+    //EFFECTS: creates the main panel our tabbed panes go on.
     static void createAndShowGUI() {
         //Create and set up the window.
         JFrame frame = new JFrame("Japanese Hiragana & Katakana Practice Application");
@@ -543,10 +591,13 @@ public class Gui extends JPanel implements ActionListener {
     }
 
     //EFFECTS: returns the current active data set
+    //CITATION: created using help from:
+    //http://suavesnippets.blogspot.com/2011/06/add-sound-on-jbutton-click-in-java.html
     public ProblemSet getActiveProblemSet() {
         return this.activeProblemSet;
     }
 
+    //EFFECTS: plays the specified sound when called
     public void playSound(String soundName) {
         try {
 

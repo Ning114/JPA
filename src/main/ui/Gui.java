@@ -9,8 +9,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.AudioSystem;
 
 import static ui.ProjectApp.JSON_STORE;
 
@@ -65,7 +70,7 @@ public class Gui extends JPanel implements ActionListener {
     private JComponent problemSetSizeTextPanel;
 
 
-    @SuppressWarnings("checkstyle:MethodLength")
+
     public Gui() {
         super(new GridLayout(1, 1));
 
@@ -99,6 +104,10 @@ public class Gui extends JPanel implements ActionListener {
         //This will be the tab with the table of problems in the active problem set
         initializeActiveProblemSetTable();
 
+        initializeTabPanes(icon);
+    }
+
+    private void initializeTabPanes(ImageIcon icon) {
         tabbedPane.addTab("Active Problem Set", icon, scrollPane,
                 "Displays each problem in the current active problem set");
         tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
@@ -114,7 +123,7 @@ public class Gui extends JPanel implements ActionListener {
         tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
     }
 
-    @SuppressWarnings("checkstyle:MethodLength")
+
     private void initializeCreateProblemSetPanel() {
         createNewProblemSetTab = new JPanel();
         createNewProblemSetTab.setLayout(new GridLayout(12, 1));
@@ -146,17 +155,16 @@ public class Gui extends JPanel implements ActionListener {
         displayTypePanel.add(displayTypeEnglish);
 
 
-        createNewProblemSetTab.add(makeTextPanel("Input type"));
-        createNewProblemSetTab.add(displayTypePanel);
-        createNewProblemSetTab.add(titleHiraganaSet1);
-        createNewProblemSetTab.add(hiraganaSet1Panel);
-        createNewProblemSetTab.add(titleHiraganaSet2);
-        createNewProblemSetTab.add(hiraganaSet2Panel);
-        createNewProblemSetTab.add(makeTextPanel("Vocab Family Set"));
-        createNewProblemSetTab.add(vocabSetFamilyPanel);
+        constructCreateProblemSetTab(hiraganaSet1Panel, hiraganaSet2Panel, vocabSetFamilyPanel, displayTypePanel);
 
         initiateProblemSetSizeTextField();
 
+        constructCreateProblemSetTab2();
+
+
+    }
+
+    private void constructCreateProblemSetTab2() {
         problemSetSizeTextPanel = makeTextPanel("Enter the size of your problem set (Must be size <= "
                 + activeProblemSet.availableProblems.size() + "):");
         createNewProblemSetTab.add(problemSetSizeTextPanel);
@@ -165,8 +173,17 @@ public class Gui extends JPanel implements ActionListener {
         createProblemSetButton = makeButton("Create Problem Set");
         initializeCreateProblemSetButtonFunctionality();
         createNewProblemSetTab.add(createProblemSetButton);
+    }
 
-
+    private void constructCreateProblemSetTab(JPanel hiraganaSet1Panel, JPanel hiraganaSet2Panel, JPanel vocabSetFamilyPanel, JPanel displayTypePanel) {
+        createNewProblemSetTab.add(makeTextPanel("Input type"));
+        createNewProblemSetTab.add(displayTypePanel);
+        createNewProblemSetTab.add(titleHiraganaSet1);
+        createNewProblemSetTab.add(hiraganaSet1Panel);
+        createNewProblemSetTab.add(titleHiraganaSet2);
+        createNewProblemSetTab.add(hiraganaSet2Panel);
+        createNewProblemSetTab.add(makeTextPanel("Vocab Family Set"));
+        createNewProblemSetTab.add(vocabSetFamilyPanel);
     }
 
     public void updateMaxProblemSetSize() {
@@ -323,6 +340,7 @@ public class Gui extends JPanel implements ActionListener {
                     problemSize = Integer.parseInt(text);
                     activeProblemSet.generateProblemSet(problemSize);
                     problemSetTableField.fillTable();
+                    playSound("./data/block_treasure.wav");
                 }
             }
         });
@@ -428,6 +446,7 @@ public class Gui extends JPanel implements ActionListener {
 
                     problemSetTableField.fillTable();
                     System.out.println("Loaded problem set from " + JSON_STORE + ".");
+                    playSound("./data/block_treasure.wav");
                 } catch (IOException exception) {
                     System.out.println("Unable to read from file: " + JSON_STORE);
                 }
@@ -449,6 +468,7 @@ public class Gui extends JPanel implements ActionListener {
                     jsonWriter.write(activeProblemSet);
                     jsonWriter.close();
                     System.out.println("Saved problem set to " + JSON_STORE + ".");
+                    playSound("./data/block_treasure.wav");
                 } catch (FileNotFoundException exception) {
                     System.out.println("Unable to write to file: " + JSON_STORE);
                 }
@@ -526,4 +546,18 @@ public class Gui extends JPanel implements ActionListener {
     public ProblemSet getActiveProblemSet() {
         return this.activeProblemSet;
     }
+
+    public void playSound(String soundName) {
+        try {
+
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception ex) {
+            System.out.println("Error with playing sound.");
+            ex.printStackTrace();
+        }
+    }
 }
+

@@ -2,24 +2,44 @@
     "displayType": "japanese",
     "problemSet": [
         {
+            "japaneseProblem": "る",
+            "englishProblem": "ru"
+        },
+        {
+            "japaneseProblem": "ぐ",
+            "englishProblem": "gu"
+        },
+        {
             "japaneseProblem": "ぞ",
             "englishProblem": "zo"
         },
         {
-            "japaneseProblem": "ば",
-            "englishProblem": "ba"
+            "japaneseProblem": "ざ",
+            "englishProblem": "za"
         },
         {
-            "japaneseProblem": "ろ",
-            "englishProblem": "ro"
+            "japaneseProblem": "れ",
+            "englishProblem": "re"
+        },
+        {
+            "japaneseProblem": "ど",
+            "englishProblem": "do"
+        },
+        {
+            "japaneseProblem": "ん",
+            "englishProblem": "n"
         },
         {
             "japaneseProblem": "じ",
             "englishProblem": "ji"
         },
         {
-            "japaneseProblem": "づ",
+            "japaneseProblem": "ず",
             "englishProblem": "zu"
+        },
+        {
+            "japaneseProblem": "ば",
+            "englishProblem": "ba"
         }
     ]
 }

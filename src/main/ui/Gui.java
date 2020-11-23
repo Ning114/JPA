@@ -1,6 +1,7 @@
 package ui;
 
 import model.ProblemSet;
+import model.SizeTooLarge;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
@@ -371,7 +372,15 @@ public class Gui extends JPanel implements ActionListener {
                 if (problemSize <= activeProblemSet.availableProblems.size()) {
                     String text = problemSetSize.getText();
                     problemSize = Integer.parseInt(text);
-                    activeProblemSet.generateProblemSet(problemSize);
+                    try {
+                        activeProblemSet.generateProblemSet(problemSize);
+                    } catch (SizeTooLarge sizeTooLarge) {
+                        playSound("./data/Spookat.wav");
+                        System.out.println("Problem set size is not equal to or less than available problem set size!"
+                                + " Try creating a problem set with size <= "
+                                + activeProblemSet.availableProblems.size() + ".");
+                        return;
+                    }
                     problemSetTableField.fillTable();
                     playSound("./data/block_treasure.wav");
                 }

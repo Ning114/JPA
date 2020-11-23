@@ -2,6 +2,7 @@ package ui;
 
 import model.Problem;
 import model.ProblemSet;
+import model.SizeTooLarge;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
@@ -11,6 +12,7 @@ import java.sql.SQLOutput;
 import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 //CLASS LEVEL COMMENT:
 //ProjectApp class is the ui of the Project. ProjectApp contains methods that operate the application, from creating
@@ -420,7 +422,11 @@ public class ProjectApp {
 
             if (input1 <= problemSetUi.availableProblems.size()) {
 
-                problemSetUi.generateProblemSet(input1);
+                try {
+                    problemSetUi.generateProblemSet(input1);
+                } catch (SizeTooLarge sizeTooLarge) {
+                    fail("Should not have thrown exception.");
+                }
 
                 System.out.println("Problem set successfully created");
                 phase = 1;

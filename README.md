@@ -64,4 +64,11 @@ there are buttons or menu items that allow the user to save and to load the stat
 - Implemented Load/Save problem set buttons on the main menu 
 
 Phase 4:
-TO-DO
+Test and design a class in your model package that is robust.  You must have at least one method 
+that throws a checked exception.  You must have one test for the case where the exception 
+is expected and another where the exception is not expected.
+
+- Implemented exceptions into ProblemSet class, making it robust. Have
+also added appropriate tests to test these exceptions. One problem is that
+the GUI Create problem set button stops working once it has caught and
+recovered from an exception. 

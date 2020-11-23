@@ -3,8 +3,10 @@ package Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 
+import model.AvailableProblemSetTooSmall;
 import model.Problem;
 import model.ProblemSet;
+import model.SizeTooLarge;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -171,7 +173,11 @@ public class ProblemSetTest {
         ps1.generateAvailableProblems();
 
         //case where problemSet < availableProblems
-        ps1.generateProblemSet(1);
+        try {
+            ps1.generateProblemSet(1);
+        } catch (SizeTooLarge sizeTooLarge) {
+            fail("Should not have thrown exception.");
+        }
         assertEquals(1, ps1.problemSet.size());
 
         //reset ps1.problemSet
@@ -180,7 +186,11 @@ public class ProblemSetTest {
         ps1.generateAvailableProblems();
 
         //case where problemSet = availableProblems
-        ps1.generateProblemSet(2);
+        try {
+            ps1.generateProblemSet(2);
+        } catch (SizeTooLarge sizeTooLarge) {
+            fail("Should not have thrown exception.");
+        }
         assertEquals(2, ps1.problemSet.size());
 
         //reset ps1.problemSet
@@ -215,7 +225,11 @@ public class ProblemSetTest {
         ps1.generateAvailableProblems();
 
         //case where all subjects are enabled
-        ps1.generateProblemSet(5);
+        try {
+            ps1.generateProblemSet(5);
+        } catch (SizeTooLarge sizeTooLarge) {
+            fail("Should not have thrown exception.");
+        }
         assertEquals(5, ps1.problemSet.size());
 
         //reset ps1.problemSet
@@ -224,7 +238,11 @@ public class ProblemSetTest {
         ps1.generateAvailableProblems();
 
         //case where problemSet = availableProblems
-        ps1.generateProblemSet(73);
+        try {
+            ps1.generateProblemSet(73);
+        } catch (SizeTooLarge sizeTooLarge) {
+            fail("Should not have thrown exception.");
+        }
         assertEquals(73, ps1.problemSet.size());
 
 
@@ -238,5 +256,59 @@ public class ProblemSetTest {
 
     }
 
+    @Test
+    public void testPickRandomProblemException() {
+        ps1.availableProblems.add(p1);
+        //testing exception boundaries: availableProblems must be >= 1
+        //problem should have been removed from availableProblems once it's been picked.
+        try {
+            ps1.pickRandomProblem();
+
+        } catch (AvailableProblemSetTooSmall exception) {
+            fail("Should not have thrown exception.");
+        }
+
+        //ps1.availableProblems should be empty now.
+        try {
+            ps1.pickRandomProblem();
+            fail("Did not throw exception.");
+
+        } catch (AvailableProblemSetTooSmall exception) {
+            //test passed.
+        }
+    }
+
+    @Test
+    public void testGenerateAvailableProblemException() {
+        //special case: this method should catch helper method's exception
+        try {
+            assertEquals(0, ps1.availableProblems.size());
+            ps1.generateProblemSet(0);
+        } catch (SizeTooLarge sizeTooLarge) {
+            fail("Exception should not have been thrown.");
+        }
+
+        //Testing boundary when size == availableProblems.size() and both are not equal to 0.
+        ps1.availableProblems.add(p1);
+        ps1.availableProblems.add(p2);
+
+        try {
+            ps1.generateProblemSet(2);
+        } catch (SizeTooLarge sizeTooLarge) {
+            fail("Should not have thrown exception");
+        }
+
+        //Testing regular case of SizeTooLarge exception being thrown
+        assertEquals(0, ps1.availableProblems.size());
+        ps1.availableProblems.add(p1);
+        ps1.availableProblems.add(p2);
+        try {
+            ps1.generateProblemSet(3);
+        } catch (SizeTooLarge sizeTooLarge) {
+            //test passed.
+            return;
+        }
+        fail("Exception should have been thrown.");
+    }
 
 }

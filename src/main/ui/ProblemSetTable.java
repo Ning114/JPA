@@ -83,7 +83,7 @@ public class ProblemSetTable extends AbstractTableModel {
     //MODIFIES: this
     //EFFECTS: fills the table with each problem in the active ProblemSet.
     public void fillTable() {
-        resetTable();
+
         updateActiveProblemSet();
 
         for (Problem p: activeProblemSet.problemSet) {
@@ -96,14 +96,14 @@ public class ProblemSetTable extends AbstractTableModel {
 
     }
 
-    //MODIFIES: this.table
-    //EFFECTS: Clears every row in the table.
-    private void resetTable() {
-        for (int i = 0; i < table.getRowCount() - 1; i++) {
-            System.out.println(table.getRowCount());
-            table.remove(i);
-        }
-    }
+//    //MODIFIES: this.table
+//    //EFFECTS: Clears every row in the table.
+//    private void resetTable() {
+//        for (int i = 0; i < table.getRowCount() - 1; i++) {
+//            System.out.println(table.getRowCount());
+//            table.remove(i);
+//        }
+//    }
 
 
     //EFFECTS: returns this.table

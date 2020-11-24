@@ -25,6 +25,7 @@ import static ui.ProjectApp.JSON_STORE;
 //it's components.
 public class Gui extends JPanel implements ActionListener {
 
+
     private final JComponent titleHiraganaSet1;
     private final JComponent titleHiraganaSet2;
     private JComponent titleTextBox;
@@ -221,7 +222,7 @@ public class Gui extends JPanel implements ActionListener {
     //empties problemSetUi problemSet List
     //empties problemSetUi availableProblems
     //enables all subjects and hiragana rows
-    private void fullReset() {
+    public void fullReset() {
         activeProblemSet.displayType = "japanese";
         activeProblemSet.problemSet.clear();
         activeProblemSet.availableProblems.clear();

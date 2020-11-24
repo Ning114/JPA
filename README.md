@@ -72,3 +72,20 @@ is expected and another where the exception is not expected.
 also added appropriate tests to test these exceptions. One problem is that
 the GUI Create problem set button stops working once it has caught and
 recovered from an exception. 
+
+Phase 4 Task 3:
+If I had more time, I would refactor the ProblemSetTable class.
+I would refactor it so that:
+- it would only access the ProblemSet Class through the Gui, and not in it's own
+field. 
+(It has it's own field because the problemSet displayed on the table isn't always
+the same as the problemSet in Gui until we call updateActiveProblemSet.)
+That would reduce associations and make the UML diagram clear and more readable.
+
+I would also refactor Gui by: 
+- refactoring the create problem set panel out of Gui into a seperate class.
+That way, the seperate class would handle the process of creating that panel and
+Gui would just need an association with that class.
+This would improve cohesion. 
+- remove the dependency Gui has on ProjectApp. Gui accesses a final string variable
+from ProjectApp; we could instead create a copy of that variable inside Gui.

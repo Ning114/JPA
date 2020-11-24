@@ -284,6 +284,7 @@ public class ProblemSetTest {
         try {
             assertEquals(0, ps1.availableProblems.size());
             ps1.generateProblemSet(0);
+
         } catch (SizeTooLarge sizeTooLarge) {
             fail("Exception should not have been thrown.");
         }

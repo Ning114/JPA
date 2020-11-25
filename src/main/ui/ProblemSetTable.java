@@ -43,6 +43,8 @@ public class ProblemSetTable extends AbstractTableModel {
     private final JTable table;
     private DefaultTableModel problemSetTable;
 
+
+
     public int selectedRow;
 
     private Gui gui;
@@ -52,6 +54,8 @@ public class ProblemSetTable extends AbstractTableModel {
     public ProblemSetTable(Gui gui) {
 
         this.gui = gui;
+
+
 
         problemSetTable = new DefaultTableModel();
         problemSetTable.setDataVector(data, columnNames);

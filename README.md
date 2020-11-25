@@ -74,6 +74,19 @@ the GUI Create problem set button stops working once it has caught and
 recovered from an exception. 
 
 Phase 4 Task 3:
+
+Quick note: The reason I'm not getting 100% for autograder on phase 4 
+is because my ProblemSet method never catches the exception
+AvailableProblemSetTooSmall exception from the pickRandomProblem method in a test.
+Both exceptions still work correctly, the only issue is that testing
+that one scenario is impossible under normal circumstances.
+That is because in the case where size = 0 and availableProblems.size() = 0,
+the for loop is skipped so we never reach the point where we throw that exception
+inside the helper method. I still wanted to keep this exception 
+even though it's not fully tested because the GUI might still somehow
+trigger this (normally impossible) chain of events.
+
+
 If I had more time, I would refactor the ProblemSetTable class.
 I would refactor it so that:
 - it would only access the ProblemSet Class through the Gui, and not in it's own

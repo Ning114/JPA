@@ -76,7 +76,6 @@ public class Gui extends JPanel implements ActionListener {
     private JComponent problemSetSizeTextPanel;
 
 
-
     //EFFECTS: main constructor for GUI. Calls all the helper methods needed to create GUI.
     public Gui() {
         super(new GridLayout(1, 1));
@@ -474,6 +473,8 @@ public class Gui extends JPanel implements ActionListener {
     //EFFECTS: initializes the buttons required for persistence, as well as their functionality
     private void initializePersistenceButtons() {
         //creating menu buttons
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
         loadProblemSetButton = makeButton("Load saved problem set");
         initializeLoadButtonFunctionality();
         saveProblemSetButton = makeButton("Save active problem set");
@@ -485,8 +486,6 @@ public class Gui extends JPanel implements ActionListener {
     //MODIFIES: this
     //EFFECTS: loads saved problem set when action is triggered
     private void initializeLoadButtonFunctionality() {
-        jsonWriter = new JsonWriter(JSON_STORE);
-        jsonReader = new JsonReader(JSON_STORE);
 
         loadProblemSetButton.addActionListener(new ActionListener() {
             @Override
@@ -508,8 +507,6 @@ public class Gui extends JPanel implements ActionListener {
     //MODIFIES: this
     //EFFECTS: loads saved problem set when action is triggered
     private void initializeSaveButtonFunctionality() {
-        jsonWriter = new JsonWriter(JSON_STORE);
-        jsonReader = new JsonReader(JSON_STORE);
 
         saveProblemSetButton.addActionListener(new ActionListener() {
             @Override
@@ -562,7 +559,6 @@ public class Gui extends JPanel implements ActionListener {
         return button;
 
     }
-
 
 
     //I can't create tab panels without this so I just have to leave it in lol

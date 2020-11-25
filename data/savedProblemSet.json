@@ -2,36 +2,8 @@
     "displayType": "japanese",
     "problemSet": [
         {
-            "japaneseProblem": "る",
-            "englishProblem": "ru"
-        },
-        {
             "japaneseProblem": "ぐ",
             "englishProblem": "gu"
-        },
-        {
-            "japaneseProblem": "ぞ",
-            "englishProblem": "zo"
-        },
-        {
-            "japaneseProblem": "ざ",
-            "englishProblem": "za"
-        },
-        {
-            "japaneseProblem": "れ",
-            "englishProblem": "re"
-        },
-        {
-            "japaneseProblem": "ど",
-            "englishProblem": "do"
-        },
-        {
-            "japaneseProblem": "ん",
-            "englishProblem": "n"
-        },
-        {
-            "japaneseProblem": "じ",
-            "englishProblem": "ji"
         },
         {
             "japaneseProblem": "ず",

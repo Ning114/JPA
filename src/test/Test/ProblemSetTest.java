@@ -3,14 +3,12 @@ package Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-import model.AvailableProblemSetTooSmall;
 import model.Problem;
 import model.ProblemSet;
 import model.SizeTooLarge;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 //CLASS LEVEL COMMENT:
@@ -256,27 +254,7 @@ public class ProblemSetTest {
 
     }
 
-    @Test
-    public void testPickRandomProblemException() {
-        ps1.availableProblems.add(p1);
-        //testing exception boundaries: availableProblems must be >= 1
-        //problem should have been removed from availableProblems once it's been picked.
-        try {
-            ps1.pickRandomProblem();
 
-        } catch (AvailableProblemSetTooSmall exception) {
-            fail("Should not have thrown exception.");
-        }
-
-        //ps1.availableProblems should be empty now.
-        try {
-            ps1.pickRandomProblem();
-            fail("Did not throw exception.");
-
-        } catch (AvailableProblemSetTooSmall exception) {
-            //test passed.
-        }
-    }
 
     @Test
     public void testGenerateAvailableProblemException() {

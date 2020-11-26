@@ -227,9 +227,6 @@ public class ProblemSet implements Writeable {
     }
 
 
-    //REQUIRES: at least one Subject set is enabled so availableProblems will be >=1,
-    //and size of problem set is <= size of availableProblems.
-    // i.e REQUIRES user to have already called the generateAvailableProblems method once before.
     //MODIFIES: this.problemSet, this.availableProblems
     //EFFECTS: Generates a list of problems based off which subject sets are enabled. Throws SizeTooBigException if
     //size > available problem set size. Loop terminates early by catching exception from helper method
@@ -244,13 +241,7 @@ public class ProblemSet implements Writeable {
         for (int i = 0; i < size; i++) {
 
             Problem randomProblem = null;
-            try {
-                randomProblem = pickRandomProblem();
-            } catch (AvailableProblemSetTooSmall availableProblemSetTooSmall) {
-                System.out.println("Available problem set is too small: terminating loop. Any problems already"
-                        + "added to the active problem set will stay.");
-                return this.problemSet;
-            }
+            randomProblem = pickRandomProblem();
             this.problemSet.add(randomProblem);
             //ensures that duplicate problems will not be added to the list.
 
@@ -261,14 +252,10 @@ public class ProblemSet implements Writeable {
 
     }
 
-    //REQUIRES: size of list of available problems is >= 1
     //EFFECTS: Randomly picks a problem out of availableProblems.
-    public Problem pickRandomProblem() throws AvailableProblemSetTooSmall {
+    public Problem pickRandomProblem() {
         int randomInt;
 
-        if (availableProblems.size() < 1) {
-            throw new AvailableProblemSetTooSmall();
-        }
 
         Random randomNumber = new Random();
         randomInt = randomNumber.nextInt(availableProblems.size());

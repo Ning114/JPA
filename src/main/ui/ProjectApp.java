@@ -425,7 +425,9 @@ public class ProjectApp {
                 try {
                     problemSetUi.generateProblemSet(input1);
                 } catch (SizeTooLarge sizeTooLarge) {
-                    fail("Should not have thrown exception.");
+                    System.out.println("Problem set size is not equal to or less than available problem set size!"
+                            + " Try creating a problem set with size <= "
+                            + problemSetUi.availableProblems.size() + ".");
                 }
 
                 System.out.println("Problem set successfully created");

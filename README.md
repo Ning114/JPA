@@ -85,8 +85,8 @@ the same as the problemSet in Gui until we call updateActiveProblemSet.)
 That would reduce associations and make the UML diagram clear and more readable.
 
 I would also refactor Gui by: 
-- refactoring the create problem set panel out of Gui into a seperate class.
-That way, the seperate class would handle the process of creating that panel and
+- refactoring the create problem set panel out of Gui into a separate class.
+That way, the separate class would handle the process of creating that panel and
 Gui would just need an association with that class.
 This would improve cohesion. 
 - remove the dependency Gui has on ProjectApp. Gui accesses a final string variable

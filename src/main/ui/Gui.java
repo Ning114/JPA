@@ -1,5 +1,6 @@
 package ui;
 
+import model.Problem;
 import model.ProblemSet;
 import model.SizeTooLarge;
 import persistence.JsonReader;
@@ -13,6 +14,7 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.Clip;
@@ -34,11 +36,24 @@ public class Gui extends JPanel implements ActionListener {
 
     private JPanel mainMenuPanel;
     private JTable activeProblemSetTable;
-    public ProblemSetTable problemSetTableField;
-    public JPanel createNewProblemSetTab;
+    public ProblemSetTable table;
+    public JPanel createSetTab;
+    public JPanel playSetTab;
 
-    //Ran out of time for implementing playProblemSetFeature :(
-    private JButton playProblemSetButton;
+    JLabel currQuestion;
+    JLabel currScore;
+    int currScoreVal;
+    int currQuestionVal;
+    public Boolean isStart = true;
+
+    public JTextField ansBox;
+    public String textDisplay;
+    public String textAns;
+    public ActionListener submitAns;
+    public ActionListener createProblemSet;
+    public ActionListener loadProblemSet;
+
+
     private JButton createProblemSetButton;
     private JButton loadProblemSetButton;
     private JButton saveProblemSetButton;
@@ -69,11 +84,11 @@ public class Gui extends JPanel implements ActionListener {
     private JComponent titleTextBox2;
 
     private JTextField problemSetSize;
-    private final String newline = "\n";
-    private JTextField textField;
-    private JTextArea textArea;
+
+
     private int problemSize;
     private JComponent problemSetSizeTextPanel;
+    private JTextArea textField;
 
 
     //EFFECTS: main constructor for GUI. Calls all the helper methods needed to create GUI.
@@ -96,11 +111,13 @@ public class Gui extends JPanel implements ActionListener {
         controls.setLayout(new GridLayout(4, 1));
 
 
-        initializePersistenceButtons();
+        initPersistence();
 
-        initializeMainMenuPanel();
+        initMainMenu();
 
-        initializeCreateProblemSetPanel();
+        initCreateSetPanel();
+
+        initPlayPanel();
 
         tabbedPane.addTab("Main Menu", icon, mainMenuPanel,
                 "Main Menu");
@@ -108,10 +125,206 @@ public class Gui extends JPanel implements ActionListener {
 
 
         //This will be the tab with the table of problems in the active problem set
-        initializeActiveProblemSetTable();
+        initActiveProblemSetTable();
 
         initializeTabPanes(icon);
     }
+
+
+    //created with help from:
+    //https://stackoverflow.com/questions/4419667/detect-enter-press-in-jtextfield
+    //https://stackoverflow.com/questions/5328945/how-to-clear-the-jtextfield-by-clicking-jbutton
+    private void initPlayPanel() {
+        playSetTab = new JPanel();
+        playSetTab.setLayout(new GridLayout(3, 1));
+
+        JLabel miscCounter = new JLabel();
+        miscCounter.setLayout(new GridLayout(1, 2));
+
+        currQuestion = new JLabel();
+        currQuestion.setText("Problem Set Progress: " + currQuestionVal + "/" + activeProblemSet.problemSet.size());
+        currQuestion.setFont(new Font("SansSerif", Font.PLAIN, 25));
+        currQuestion.setHorizontalAlignment(SwingConstants.CENTER);
+
+        currScore = new JLabel();
+        currScore.setText("Current Score: " + currScoreVal + "/" + activeProblemSet.problemSet.size());
+        currScore.setFont(new Font("SansSerif", Font.PLAIN, 25));
+        currScore.setHorizontalAlignment(SwingConstants.CENTER);
+
+        miscCounter.add(currQuestion);
+        miscCounter.add(currScore);
+
+        textField = new JTextArea();
+        textField.setEditable(false);
+        textField.setFont(new Font("SansSerif", Font.PLAIN, 25));
+
+        textField.setText("Press enter to start once you have a problem set ready!");
+
+
+
+//        String str = "";
+//        for (int i = 0; i < 3; ++i) {
+//            str += "Some text\n";
+//            System.out.println("doing stuff");
+//            textField.setText(str);
+//            try {
+//                TimeUnit.SECONDS.sleep(1);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        //USE THIS TO ADD TEXT TO THE BOX!
+//        textField.setText(str);
+
+        JScrollPane scroll = new JScrollPane(textField);
+        scroll.setBounds(10, 11, 455, 249);                     // <-- THIS
+
+
+        //EFFECTS: creates the text field in which the user enters their answers to problems
+        ansBox = new JTextField(50);
+        ansBox.setSize(100, 20);
+        ansBox.setFont(new Font("SansSerif", Font.PLAIN, 20));
+
+
+
+        //pressing enter in the textField will run this function.
+        submitAns = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                textAns = ansBox.getText();
+
+                if (isStart) {
+                    if (activeProblemSet.problemSet.size() > 0) {
+                        isStart = false;
+                        if (activeProblemSet.displayType.equals("japanese")) {
+                            //!!!
+                            //I do not understand why this always prints the opposite. For now they're set to both .englishProblem
+                            textField.setText(textField.getText() + "\n" + activeProblemSet.problemSet.get(currQuestionVal).englishProblem);
+                        } else {
+                            textField.setText(textField.getText() + "\n" + activeProblemSet.problemSet.get(currQuestionVal).englishProblem);
+                        }
+                        textField.revalidate();
+                        textField.repaint();
+                    }
+                    return;
+                }
+
+                updateQuizSession();
+            }
+        };
+
+        ansBox.addActionListener(submitAns);
+
+        playSetTab.add(scroll);
+        playSetTab.add(miscCounter);
+        playSetTab.add(ansBox);
+
+
+    }
+
+    private void performanceSummary() {
+
+    }
+
+    private String generateCorrectPrompt() {
+        String answer = "naisu!";
+        int randomNum = ThreadLocalRandom.current().nextInt(1, 7 + 1);
+        switch (randomNum) {
+            case 1: answer = "naisu！";
+            break;
+            case 2: answer = "お疲れさまでした";
+                break;
+            case 3: answer = "ナイス！";
+                break;
+            case 4: answer = "合格！";
+                break;
+            case 5: answer = "naisu!";
+                break;
+            case 6: answer = "Poggers";
+                break;
+            case 7: answer = "Correct!";
+                break;
+        }
+        return answer;
+    }
+
+    //this should be the method that actually runs the quiz, does the scoring, etc.
+    public void updateQuizSession() {
+
+        //responsible for displaying user's answer
+        textField.setText(textField.getText() + "\n" + textAns);
+        textField.revalidate();
+        textField.repaint();
+
+
+        if (activeProblemSet.displayType.equals("japanese")) {
+            textField.setText(textField.getText() + "\n" + activeProblemSet.problemSet.get(currQuestionVal).japaneseProblem);
+        } else {
+            textField.setText(textField.getText() + "\n" + activeProblemSet.problemSet.get(currQuestionVal).englishProblem);
+        }
+
+
+        //responsible for changing the score
+        if (activeProblemSet.displayType.equals("japanese")) {
+            if (activeProblemSet.problemSet.size() > 0) {
+                //english problem
+                if (activeProblemSet.problemSet.get(currQuestionVal).japaneseProblem.equals(textAns)) {
+                    currScoreVal++;
+                    textField.setText(textField.getText() + "\n" + generateCorrectPrompt());
+                    textField.setText(textField.getText() + "\n");
+
+                } else {
+                    textField.setText(textField.getText() + "\n" + "Incorrect!");
+                    textField.setText(textField.getText() + "\n");
+
+                }
+            }
+        } else {
+            if (activeProblemSet.problemSet.size() > 0) {
+                //japanese problem
+                if (activeProblemSet.problemSet.get(currQuestionVal).englishProblem.equals(textAns)) {
+                    currScoreVal++;
+                    textField.setText(textField.getText() + "\n" + generateCorrectPrompt());
+                    textField.setText(textField.getText() + "\n");
+                } else {
+                    textField.setText(textField.getText() + "\n" + "Incorrect!");
+                    textField.setText(textField.getText() + "\n");
+
+                }
+            }
+        }
+
+
+        //display next question
+        currQuestionVal++;
+        if (currQuestionVal >= activeProblemSet.problemSet.size()) {
+            //problem set is over, we've finished the last question.
+            //so we do nothing here because there is no next question to display!
+//                    fullReset();
+            performanceSummary();
+        } else if (activeProblemSet.displayType == "japanese") {
+            textField.setText(textField.getText() + "\n" + activeProblemSet.problemSet.get(currQuestionVal).japaneseProblem);
+        } else {
+            System.out.println(activeProblemSet.problemSet.get(currQuestionVal).englishProblem);
+            textField.setText(textField.getText() + "\n" + activeProblemSet.problemSet.get(currQuestionVal).englishProblem);
+        }
+        textField.revalidate();
+        textField.repaint();
+
+
+        ansBox.setText("");
+
+
+
+        //update currQuestion and currScore displays
+        currQuestion.setText("Problem Set Progress: " + currQuestionVal + "/" + activeProblemSet.problemSet.size());
+        currScore.setText("Current Score: " + currScoreVal + "/" + activeProblemSet.problemSet.size());
+
+
+    }
+
+
 
     //CITATION: made with help from:
     //https://docs.oracle.com/javase/tutorial/uiswing/examples/components/index.html
@@ -122,9 +335,13 @@ public class Gui extends JPanel implements ActionListener {
                 "Displays each problem in the current active problem set");
         tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
 
-        tabbedPane.addTab("Create New Problem Set", icon, createNewProblemSetTab,
+        tabbedPane.addTab("Create New Problem Set", icon, createSetTab,
                 "Create a new problem set");
         tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
+
+        tabbedPane.addTab("Play Problem Set", icon, playSetTab,
+                "Create a new problem set");
+        tabbedPane.setMnemonicAt(3, KeyEvent.VK_4);
 
         //Add the tabbed pane to this panel.
         add(tabbedPane);
@@ -136,11 +353,13 @@ public class Gui extends JPanel implements ActionListener {
 
     //MODIFIES: this
     //EFFECTS: starts the construction process for creating the createProblemSetTab.
-    private void initializeCreateProblemSetPanel() {
-        createNewProblemSetTab = new JPanel();
-        createNewProblemSetTab.setLayout(new GridLayout(12, 1));
+    private void initCreateSetPanel() {
+        createSetTab = new JPanel();
+        createSetTab.setLayout(new GridLayout(12, 1));
 
-        createNewProblemSetTab.add(titleTextBox2);
+        updateMaxProblemSetSize();
+
+        createSetTab.add(titleTextBox2);
         initializeRadioButtons();
         JPanel hiraganaSet1Panel = new JPanel();
         hiraganaSet1Panel.setLayout(new FlowLayout());
@@ -169,11 +388,6 @@ public class Gui extends JPanel implements ActionListener {
 
         constructCreateProblemSetTab(hiraganaSet1Panel, hiraganaSet2Panel, vocabSetFamilyPanel, displayTypePanel);
 
-        initiateProblemSetSizeTextField();
-
-        constructCreateProblemSetTab2();
-
-
     }
 
 
@@ -181,38 +395,61 @@ public class Gui extends JPanel implements ActionListener {
     //EFFECTS: constructs the createProblemSetTab and slaps the needed panels onto it for functionality
     private void constructCreateProblemSetTab(JPanel hiraganaSet1Panel, JPanel hiraganaSet2Panel,
                                               JPanel vocabSetFamilyPanel, JPanel displayTypePanel) {
-        createNewProblemSetTab.add(makeTextPanel("Input type"));
-        createNewProblemSetTab.add(displayTypePanel);
-        createNewProblemSetTab.add(titleHiraganaSet1);
-        createNewProblemSetTab.add(hiraganaSet1Panel);
-        createNewProblemSetTab.add(titleHiraganaSet2);
-        createNewProblemSetTab.add(hiraganaSet2Panel);
-        createNewProblemSetTab.add(makeTextPanel("Vocab Family Set"));
-        createNewProblemSetTab.add(vocabSetFamilyPanel);
-    }
+        createSetTab.add(makeTextPanel("Input type"));
+        createSetTab.add(displayTypePanel);
+        createSetTab.add(titleHiraganaSet1);
+        createSetTab.add(hiraganaSet1Panel);
+        createSetTab.add(titleHiraganaSet2);
+        createSetTab.add(hiraganaSet2Panel);
+        createSetTab.add(makeTextPanel("Vocab Family Set"));
+        createSetTab.add(vocabSetFamilyPanel);
 
-    //MODIFIES: this
-    //EFFECTS: part 2 for constructing createProblemSetTab. Called after constructCreateProblemSetTab
-    private void constructCreateProblemSetTab2() {
+        //EFFECTS: creates the text field in which the user inputs the size of their problem set before hitting create
+        problemSetSize = new JTextField(activeProblemSet.availableProblems.size());
+        problemSetSize.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String text = problemSetSize.getText();
+                problemSize = Integer.parseInt(text);
+
+            }
+        });
+
+        //EFFECTS: part 2 for constructing createProblemSetTab. Called after constructCreateProblemSetTab
         problemSetSizeTextPanel = makeTextPanel("Enter the size of your problem set (Must be size <= "
                 + activeProblemSet.availableProblems.size() + "):");
-        createNewProblemSetTab.add(problemSetSizeTextPanel);
-        createNewProblemSetTab.add(problemSetSize);
+        createSetTab.add(problemSetSizeTextPanel);
+        createSetTab.add(problemSetSize);
 
         createProblemSetButton = makeButton("Create Problem Set");
-        initializeCreateProblemSetButtonFunctionality();
-        createNewProblemSetTab.add(createProblemSetButton);
+        initCreateSetBut();
+        createSetTab.add(createProblemSetButton);
     }
+
 
     //MODIFIES: this
     //EFFECTS: regenerates the availableproblems problemset by generating a new one everytime a change is made
     public void updateMaxProblemSetSize() {
+
         activeProblemSet.availableProblems.clear();
         activeProblemSet.generateAvailableProblems();
+
+//        problemSetSizeTextPanel = makeTextPanel("Enter the size of your problem set (Must be size <= "
+//                + activeProblemSet.availableProblems.size() + "):");
         problemSetSizeTextPanel = makeTextPanel("Enter the size of your problem set (Must be size <= "
                 + activeProblemSet.availableProblems.size() + "):");
+        problemSetSizeTextPanel.revalidate();
+        problemSetSizeTextPanel.repaint();
+
+
+        System.out.println(activeProblemSet.availableProblems.size());
+
         problemSetSizeTextPanel.update(problemSetSizeTextPanel.getGraphics());
-        createNewProblemSetTab.update(createNewProblemSetTab.getGraphics());
+        problemSetSizeTextPanel.revalidate();
+        problemSetSizeTextPanel.repaint();
+        createSetTab.revalidate();
+        createSetTab.repaint();
+//        createSetTab.update(createSetTab.getGraphics());
     }
 
     //MODIFIES: problemSetUi, problemSetUi subjects, problemSetUi hiraganaRows, problemSetUi.displayType
@@ -225,6 +462,8 @@ public class Gui extends JPanel implements ActionListener {
         activeProblemSet.displayType = "japanese";
         activeProblemSet.problemSet.clear();
         activeProblemSet.availableProblems.clear();
+        table.resetTable();
+        isStart = true;
 
         if (!activeProblemSet.hiraganaSet1) {
             toggleHiraganaOneToEight(true);
@@ -236,21 +475,6 @@ public class Gui extends JPanel implements ActionListener {
             activeProblemSet.vocabFamilySet = true;
         }
 
-    }
-
-    //MODIFIES: this
-    //EFFECTS: creates the text field in which the user inputs the size of their problem set before hitting create
-    private void initiateProblemSetSizeTextField() {
-
-        problemSetSize = new JTextField(activeProblemSet.availableProblems.size());
-        problemSetSize.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String text = problemSetSize.getText();
-                problemSize = Integer.parseInt(text);
-
-            }
-        });
     }
 
 
@@ -281,16 +505,16 @@ public class Gui extends JPanel implements ActionListener {
         displayTypeButtons.add(displayTypeJapanese);
         displayTypeButtons.add(displayTypeEnglish);
 
-        initializeHiraganaSet1ButtonFunctionality();
-        initializeHiraganaSet2ButtonFunctionality();
-        initializeVocabFamilySetButtonFunctionality();
-        initializeDisplayTypeButtonFunctionality();
-        initializeDisplayTypeButtonFunctionality();
+        initHirSet1But();
+        initHirSet2But();
+        initVocabFamBut();
+        initDisplayButton();
+        initDisplayButton();
     }
 
     //MODIFIES: this
     //EFFECTS: initializes the button functionality for hiraganaset1
-    public void initializeHiraganaSet1ButtonFunctionality() {
+    public void initHirSet1But() {
         hiraganaSet1True.setSelected(true);
         hiraganaSet1True.addActionListener(new ActionListener() {
             @Override
@@ -314,7 +538,7 @@ public class Gui extends JPanel implements ActionListener {
 
     //MODIFIES: this
     //EFFECTS: Initializes button functionality for hiraganaset2
-    public void initializeHiraganaSet2ButtonFunctionality() {
+    public void initHirSet2But() {
         hiraganaSet2True.setSelected(true);
         hiraganaSet2True.addActionListener(new ActionListener() {
             @Override
@@ -338,7 +562,7 @@ public class Gui extends JPanel implements ActionListener {
 
     //MODIFIES: this
     //EFFECTS: Initializes button functionality for vocabfamilyset
-    public void initializeVocabFamilySetButtonFunctionality() {
+    public void initVocabFamBut() {
         vocabFamilyTrue.setSelected(true);
         vocabFamilyTrue.addActionListener(new ActionListener() {
             @Override
@@ -365,34 +589,43 @@ public class Gui extends JPanel implements ActionListener {
     //it should do nothing if problem size
     //entered is larger than activeProblemSet.availableProblems size.
     //Plays a sound when problem set created successfully
-    public void initializeCreateProblemSetButtonFunctionality() {
-        createProblemSetButton.addActionListener(new ActionListener() {
+    public void initCreateSetBut() {
+        createProblemSet = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (problemSize <= activeProblemSet.availableProblems.size()) {
                     String text = problemSetSize.getText();
                     problemSize = Integer.parseInt(text);
                     try {
+                        table.resetTable();
                         activeProblemSet.generateProblemSet(problemSize);
+//                        isStart = false;
                     } catch (SizeTooLarge sizeTooLarge) {
-                        playSound("./data/Spookat.wav");
+                        playSound("./data/failure.wav");
                         System.out.println("Problem set size is not equal to or less than available problem set size!"
                                 + " Try creating a problem set with size <= "
                                 + activeProblemSet.availableProblems.size() + ".");
                         return;
                     }
-                    problemSetTableField.fillTable();
-                    playSound("./data/block_treasure.wav");
+                    table.fillTable();
+                    playSound("./data/success.wav");
+
+                    //update score and question displays
+                    currQuestionVal = 0;
+                    currQuestion.setText("Problem Set Progress: " + currQuestionVal + "/" + activeProblemSet.problemSet.size());
+                    currScore.setText("Current Score: " + currScoreVal + "/" + activeProblemSet.problemSet.size());
                 }
+
             }
-        });
+        };
+        createProblemSetButton.addActionListener(createProblemSet);
 
 
     }
 
     //MODIFIES: this
     //EFFECTS: Initializes displaytypebutton functionality
-    public void initializeDisplayTypeButtonFunctionality() {
+    public void initDisplayButton() {
         displayTypeJapanese.setSelected(true);
         displayTypeJapanese.addActionListener(new ActionListener() {
             @Override
@@ -439,12 +672,12 @@ public class Gui extends JPanel implements ActionListener {
     //EFFECTS: Initializes/creates new table that will display each problem in the active data set.
     //DON'T FORGET TO CALL problemSetTable.fillTable(); everytime you alter the active data set in some way (!!!)
     //e.g.) Call this method after loading and creating a new problemSet.
-    private void initializeActiveProblemSetTable() {
+    private void initActiveProblemSetTable() {
 
         ProblemSetTable problemSetTable = new ProblemSetTable(this);
 
 
-        this.problemSetTableField = problemSetTable;
+        this.table = problemSetTable;
         activeProblemSetTable = problemSetTable.getTable();
         activeProblemSetTable.setPreferredScrollableViewportSize(new Dimension(500, 70));
         activeProblemSetTable.setFillsViewportHeight(true);
@@ -459,7 +692,7 @@ public class Gui extends JPanel implements ActionListener {
 
     //MODIFIES: this
     //EFFECTS: creates the main menu panel. Also slaps the title panel and load/save problem set buttons onto it.
-    private void initializeMainMenuPanel() {
+    private void initMainMenu() {
         mainMenuPanel = new JPanel();
         mainMenuPanel.setLayout(new GridLayout(5, 1));
 
@@ -471,54 +704,65 @@ public class Gui extends JPanel implements ActionListener {
 
     //MODIFIES: this
     //EFFECTS: initializes the buttons required for persistence, as well as their functionality
-    private void initializePersistenceButtons() {
+    private void initPersistence() {
         //creating menu buttons
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
         loadProblemSetButton = makeButton("Load saved problem set");
-        initializeLoadButtonFunctionality();
+        initLoadButFunc();
         saveProblemSetButton = makeButton("Save active problem set");
-        initializeSaveButtonFunctionality();
+        initSaveButFunc();
     }
 
 
     //CITATION: Based off of loadWorkRoom method in WorkRoomApp class of JsonSerializationDemo
     //MODIFIES: this
     //EFFECTS: loads saved problem set when action is triggered
-    private void initializeLoadButtonFunctionality() {
+    private void initLoadButFunc() {
 
-        loadProblemSetButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    activeProblemSet = jsonReader.read();
+        loadProblemSetButton.addActionListener(e -> {
+            try {
+                fullReset();
 
-                    problemSetTableField.fillTable();
-                    System.out.println("Loaded problem set from " + JSON_STORE + ".");
-                    playSound("./data/block_treasure.wav");
-                } catch (IOException exception) {
-                    System.out.println("Unable to read from file: " + JSON_STORE);
-                }
+                activeProblemSet = jsonReader.read();
+//                isStart = false;
+                System.out.println("Loaded problem set from " + JSON_STORE + ".");
+
+                //update score and question displays
+                table.fillTable();
+                currQuestionVal = 0;
+                currQuestion.setText("Problem Set Progress: " + currQuestionVal + "/" + activeProblemSet.problemSet.size());
+                currScore.setText("Current Score: " + currScoreVal + "/" + activeProblemSet.problemSet.size());
+
+
+                playSound("./data/success.wav");
+
+            } catch (IOException exception) {
+                System.out.println("Unable to read from file: " + JSON_STORE);
             }
         });
     }
 
     //CITATION: Based off of saveWorkRoom method in WorkRoomApp class of JsonSerializationDemo
     //MODIFIES: this
-    //EFFECTS: loads saved problem set when action is triggered
-    private void initializeSaveButtonFunctionality() {
+
+    //EFFECTS: loads saved problem set when action is triggered. Does nothing if current active set is empty.
+    private void initSaveButFunc() {
 
         saveProblemSetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    jsonWriter.open();
-                    jsonWriter.write(activeProblemSet);
-                    jsonWriter.close();
-                    System.out.println("Saved problem set to " + JSON_STORE + ".");
-                    playSound("./data/block_treasure.wav");
-                } catch (FileNotFoundException exception) {
-                    System.out.println("Unable to write to file: " + JSON_STORE);
+
+                if (activeProblemSet.problemSet.size() > 0) {
+                    try {
+                        jsonWriter.open();
+                        jsonWriter.write(activeProblemSet);
+                        jsonWriter.close();
+                        System.out.println("Saved problem set to " + JSON_STORE + ".");
+                        playSound("./data/success.wav");
+                    } catch (FileNotFoundException exception) {
+                        System.out.println("Unable to write to file: " + JSON_STORE);
+                    }
                 }
             }
         });
@@ -540,10 +784,8 @@ public class Gui extends JPanel implements ActionListener {
     //https://docs.oracle.com/javase/tutorial/uiswing/examples/components/index.html
     //EFFECTS: helper function for creating a button with the given label
     protected JButton makeButton(String text) {
-
         //creating play active problem set button and adding it to tab1
         final JButton button = new JButton(text);
-
         return button;
 
     }
@@ -552,12 +794,9 @@ public class Gui extends JPanel implements ActionListener {
     //https://docs.oracle.com/javase/tutorial/uiswing/examples/components/index.html
     //EFFECTS: helper function for creating a radio button with the given label
     protected JRadioButton makeRadioButton(String text) {
-
         //creating play active problem set button and adding it to tab1
         final JRadioButton button = new JRadioButton(text);
-
         return button;
-
     }
 
 
@@ -606,7 +845,6 @@ public class Gui extends JPanel implements ActionListener {
     //EFFECTS: plays the specified sound when called
     public void playSound(String soundName) {
         try {
-
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);

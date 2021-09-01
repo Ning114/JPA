@@ -2,16 +2,12 @@
     "displayType": "japanese",
     "problemSet": [
         {
-            "japaneseProblem": "ぐ",
-            "englishProblem": "gu"
+            "japaneseProblem": "おとうさん",
+            "englishProblem": "father"
         },
         {
-            "japaneseProblem": "ず",
-            "englishProblem": "zu"
-        },
-        {
-            "japaneseProblem": "ば",
-            "englishProblem": "ba"
+            "japaneseProblem": "おかあさん",
+            "englishProblem": "mother"
         }
     ]
 }

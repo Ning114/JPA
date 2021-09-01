@@ -1,6 +1,6 @@
-# Hiragana + Katakana Practice Application
+# JPA - Japanese Practice Application
 
-## An Application For Basic Hiragana and Katakana Practice
+## An Application For Basic Hiragana, Katakana, and Japanese Vocabulary
 
 **What will the application do?**
 

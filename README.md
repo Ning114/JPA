@@ -12,7 +12,7 @@ of length determined by the user and contain only subjects enabled by the User.
 
 Subjects include:
 - hiragana 
-- katakana 
+- katakana (Work in Progress)
 - family vocabulary
 - Telling the time (Work in Progress)
 

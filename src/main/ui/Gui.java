@@ -47,11 +47,10 @@ public class Gui extends JPanel implements ActionListener {
     public Boolean isStart = true;
 
     public JTextField ansBox;
-    public String textDisplay;
     public String textAns;
     public ActionListener submitAns;
     public ActionListener createProblemSet;
-    public ActionListener loadProblemSet;
+
 
 
     private JButton createProblemSetButton;
@@ -188,30 +187,28 @@ public class Gui extends JPanel implements ActionListener {
 
 
         //pressing enter in the textField will run this function.
-        submitAns = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        submitAns = e -> {
 
-                textAns = ansBox.getText();
+            textAns = ansBox.getText();
 
-                if (isStart) {
-                    if (activeProblemSet.problemSet.size() > 0) {
-                        isStart = false;
-                        if (activeProblemSet.displayType.equals("japanese")) {
-                            //!!!
-                            //I do not understand why this always prints the opposite. For now they're set to both .englishProblem
-                            textField.setText(textField.getText() + "\n" + activeProblemSet.problemSet.get(currQuestionVal).englishProblem);
-                        } else {
-                            textField.setText(textField.getText() + "\n" + activeProblemSet.problemSet.get(currQuestionVal).englishProblem);
-                        }
-                        textField.revalidate();
-                        textField.repaint();
+            if (isStart) {
+                if (activeProblemSet.problemSet.size() > 0) {
+                    isStart = false;
+                    textField.setText("");
+                    if (activeProblemSet.displayType.equals("english")) {
+                        //!!!
+                        //I do not understand why this always prints the opposite. For now they're set to both .englishProblem
+                        textField.setText(textField.getText() + "\n" + activeProblemSet.problemSet.get(currQuestionVal).japaneseProblem);
+                    } else {
+                        textField.setText(textField.getText() + "\n" + activeProblemSet.problemSet.get(currQuestionVal).englishProblem);
                     }
-                    return;
+                    textField.revalidate();
+                    textField.repaint();
                 }
-
-                updateQuizSession();
+                return;
             }
+
+            updateQuizSession();
         };
 
         ansBox.addActionListener(submitAns);
@@ -224,20 +221,39 @@ public class Gui extends JPanel implements ActionListener {
     }
 
     private void performanceSummary() {
+        double score = currScoreVal / (double) activeProblemSet.problemSet.size();
+        System.out.println(score);
+
+        textField.setText("Final Score: " + currScoreVal + "/" + activeProblemSet.problemSet.size());
+
+
+        if (score == 1) {
+            textField.setText(textField.getText() + "\n" + "Well done! A perfect score");
+        } else if (0.75 <= score && score < 1) {
+            textField.setText(textField.getText() + "\n" + "Just a little more to go! Everyone is cheering you on!");
+        } else if (0.5 <= score && score < 0.75) {
+            textField.setText(textField.getText() + "\n" + "もっとがんばってください!");
+        } else {
+            textField.setText(textField.getText() + "\n" + "Your grade is chotto Yabe...");
+        }
+        isStart = true;
+        currScoreVal = 0;
+        currQuestionVal = 0;
 
     }
 
     private String generateCorrectPrompt() {
+        playSound("./data/success.wav");
         String answer = "naisu!";
         int randomNum = ThreadLocalRandom.current().nextInt(1, 7 + 1);
         switch (randomNum) {
             case 1: answer = "naisu！";
             break;
-            case 2: answer = "お疲れさまでした";
+            case 2: answer = "おつかれさまでした";
                 break;
             case 3: answer = "ナイス！";
                 break;
-            case 4: answer = "合格！";
+            case 4: answer = "ごうかく！";
                 break;
             case 5: answer = "naisu!";
                 break;
@@ -258,7 +274,7 @@ public class Gui extends JPanel implements ActionListener {
         textField.repaint();
 
 
-        if (activeProblemSet.displayType.equals("japanese")) {
+        if (activeProblemSet.displayType.equals("english")) {
             textField.setText(textField.getText() + "\n" + activeProblemSet.problemSet.get(currQuestionVal).japaneseProblem);
         } else {
             textField.setText(textField.getText() + "\n" + activeProblemSet.problemSet.get(currQuestionVal).englishProblem);
@@ -275,6 +291,7 @@ public class Gui extends JPanel implements ActionListener {
                     textField.setText(textField.getText() + "\n");
 
                 } else {
+                    playSound("./data/failure.wav");
                     textField.setText(textField.getText() + "\n" + "Incorrect!");
                     textField.setText(textField.getText() + "\n");
 
@@ -288,6 +305,7 @@ public class Gui extends JPanel implements ActionListener {
                     textField.setText(textField.getText() + "\n" + generateCorrectPrompt());
                     textField.setText(textField.getText() + "\n");
                 } else {
+                    playSound("./data/failure.wav");
                     textField.setText(textField.getText() + "\n" + "Incorrect!");
                     textField.setText(textField.getText() + "\n");
 
@@ -303,7 +321,7 @@ public class Gui extends JPanel implements ActionListener {
             //so we do nothing here because there is no next question to display!
 //                    fullReset();
             performanceSummary();
-        } else if (activeProblemSet.displayType == "japanese") {
+        } else if (activeProblemSet.displayType.equals("english")) {
             textField.setText(textField.getText() + "\n" + activeProblemSet.problemSet.get(currQuestionVal).japaneseProblem);
         } else {
             System.out.println(activeProblemSet.problemSet.get(currQuestionVal).englishProblem);
@@ -406,13 +424,10 @@ public class Gui extends JPanel implements ActionListener {
 
         //EFFECTS: creates the text field in which the user inputs the size of their problem set before hitting create
         problemSetSize = new JTextField(activeProblemSet.availableProblems.size());
-        problemSetSize.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String text = problemSetSize.getText();
-                problemSize = Integer.parseInt(text);
+        problemSetSize.addActionListener(e -> {
+            String text = problemSetSize.getText();
+            problemSize = Integer.parseInt(text);
 
-            }
         });
 
         //EFFECTS: part 2 for constructing createProblemSetTab. Called after constructCreateProblemSetTab
@@ -516,23 +531,17 @@ public class Gui extends JPanel implements ActionListener {
     //EFFECTS: initializes the button functionality for hiraganaset1
     public void initHirSet1But() {
         hiraganaSet1True.setSelected(true);
-        hiraganaSet1True.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                toggleHiraganaOneToEight(true);
+        hiraganaSet1True.addActionListener(e -> {
+            toggleHiraganaOneToEight(true);
 
-                updateMaxProblemSetSize();
+            updateMaxProblemSetSize();
 
-            }
         });
-        hiraganaSet1False.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                toggleHiraganaOneToEight(false);
+        hiraganaSet1False.addActionListener(e -> {
+            toggleHiraganaOneToEight(false);
 
-                updateMaxProblemSetSize();
+            updateMaxProblemSetSize();
 
-            }
         });
     }
 
@@ -540,23 +549,17 @@ public class Gui extends JPanel implements ActionListener {
     //EFFECTS: Initializes button functionality for hiraganaset2
     public void initHirSet2But() {
         hiraganaSet2True.setSelected(true);
-        hiraganaSet2True.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                toggleHiraganaNineToSixteen(true);
+        hiraganaSet2True.addActionListener(e -> {
+            toggleHiraganaNineToSixteen(true);
 
-                updateMaxProblemSetSize();
+            updateMaxProblemSetSize();
 
-            }
         });
-        hiraganaSet2False.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                toggleHiraganaNineToSixteen(false);
+        hiraganaSet2False.addActionListener(e -> {
+            toggleHiraganaNineToSixteen(false);
 
-                updateMaxProblemSetSize();
+            updateMaxProblemSetSize();
 
-            }
         });
     }
 
@@ -564,23 +567,17 @@ public class Gui extends JPanel implements ActionListener {
     //EFFECTS: Initializes button functionality for vocabfamilyset
     public void initVocabFamBut() {
         vocabFamilyTrue.setSelected(true);
-        vocabFamilyTrue.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                activeProblemSet.vocabFamilySet = true;
+        vocabFamilyTrue.addActionListener(e -> {
+            activeProblemSet.vocabFamilySet = true;
 
-                updateMaxProblemSetSize();
+            updateMaxProblemSetSize();
 
-            }
         });
-        vocabFamilyFalse.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                activeProblemSet.vocabFamilySet = false;
+        vocabFamilyFalse.addActionListener(e -> {
+            activeProblemSet.vocabFamilySet = false;
 
-                updateMaxProblemSetSize();
+            updateMaxProblemSetSize();
 
-            }
         });
     }
 
@@ -590,33 +587,30 @@ public class Gui extends JPanel implements ActionListener {
     //entered is larger than activeProblemSet.availableProblems size.
     //Plays a sound when problem set created successfully
     public void initCreateSetBut() {
-        createProblemSet = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (problemSize <= activeProblemSet.availableProblems.size()) {
-                    String text = problemSetSize.getText();
-                    problemSize = Integer.parseInt(text);
-                    try {
-                        table.resetTable();
-                        activeProblemSet.generateProblemSet(problemSize);
-//                        isStart = false;
-                    } catch (SizeTooLarge sizeTooLarge) {
-                        playSound("./data/failure.wav");
-                        System.out.println("Problem set size is not equal to or less than available problem set size!"
-                                + " Try creating a problem set with size <= "
-                                + activeProblemSet.availableProblems.size() + ".");
-                        return;
-                    }
-                    table.fillTable();
-                    playSound("./data/success.wav");
+        createProblemSet = e -> {
+            if (problemSize <= activeProblemSet.availableProblems.size()) {
+                String text = problemSetSize.getText();
+                problemSize = Integer.parseInt(text);
+                try {
+                    table.resetTable();
+                    activeProblemSet.generateProblemSet(problemSize);
 
-                    //update score and question displays
-                    currQuestionVal = 0;
-                    currQuestion.setText("Problem Set Progress: " + currQuestionVal + "/" + activeProblemSet.problemSet.size());
-                    currScore.setText("Current Score: " + currScoreVal + "/" + activeProblemSet.problemSet.size());
+                } catch (SizeTooLarge sizeTooLarge) {
+                    playSound("./data/failure.wav");
+                    System.out.println("Problem set size is not equal to or less than available problem set size!"
+                            + " Try creating a problem set with size <= "
+                            + activeProblemSet.availableProblems.size() + ".");
+                    return;
                 }
+                table.fillTable();
+                playSound("./data/success.wav");
 
+                //update score and question displays
+                currQuestionVal = 0;
+                currQuestion.setText("Problem Set Progress: " + currQuestionVal + "/" + activeProblemSet.problemSet.size());
+                currScore.setText("Current Score: " + currScoreVal + "/" + activeProblemSet.problemSet.size());
             }
+
         };
         createProblemSetButton.addActionListener(createProblemSet);
 
@@ -627,18 +621,8 @@ public class Gui extends JPanel implements ActionListener {
     //EFFECTS: Initializes displaytypebutton functionality
     public void initDisplayButton() {
         displayTypeJapanese.setSelected(true);
-        displayTypeJapanese.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                activeProblemSet.displayType = "japanese";
-            }
-        });
-        displayTypeEnglish.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                activeProblemSet.displayType = "english";
-            }
-        });
+        displayTypeJapanese.addActionListener(e -> activeProblemSet.displayType = "japanese");
+        displayTypeEnglish.addActionListener(e -> activeProblemSet.displayType = "english");
     }
 
     //MODIFIES: problemSetUi.hiraganaSet1-8
@@ -749,20 +733,17 @@ public class Gui extends JPanel implements ActionListener {
     //EFFECTS: loads saved problem set when action is triggered. Does nothing if current active set is empty.
     private void initSaveButFunc() {
 
-        saveProblemSetButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        saveProblemSetButton.addActionListener(e -> {
 
-                if (activeProblemSet.problemSet.size() > 0) {
-                    try {
-                        jsonWriter.open();
-                        jsonWriter.write(activeProblemSet);
-                        jsonWriter.close();
-                        System.out.println("Saved problem set to " + JSON_STORE + ".");
-                        playSound("./data/success.wav");
-                    } catch (FileNotFoundException exception) {
-                        System.out.println("Unable to write to file: " + JSON_STORE);
-                    }
+            if (activeProblemSet.problemSet.size() > 0) {
+                try {
+                    jsonWriter.open();
+                    jsonWriter.write(activeProblemSet);
+                    jsonWriter.close();
+                    System.out.println("Saved problem set to " + JSON_STORE + ".");
+                    playSound("./data/success.wav");
+                } catch (FileNotFoundException exception) {
+                    System.out.println("Unable to write to file: " + JSON_STORE);
                 }
             }
         });

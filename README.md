@@ -1,22 +1,20 @@
-# JPA - Japanese Practice Application
+# Flashcard Application
 
-## An Application For Basic Hiragana, Katakana, and Japanese Vocabulary
+## An Application For Language & Vocabulary Pratice
 
 **What will the application do?**
 
-This application can be used to help the user practice memorizing certain Japanese subjects
-in hiragana and katakana (kanji not supported currently). 
-The application will allow the user to run through pre-made problem sets, or randomly
+This application can be used to help the user practice memorizing vocabulary for various subjects
+
+Users can choose to learn pre-made problem decks, or randomly
 generate a problem set of their own. This randomly generated problem set will be 
 of length determined by the user and contain only subjects enabled by the User. 
 
 Subjects include:
+
+Japanese
 - hiragana 
 - katakana (Work in Progress)
 - family vocabulary
 - Telling the time (Work in Progress)
 
-**Who will use this application?**
-
-This application is designed for complete beginners who want to learn Japanese
-Hiragana and Katakana characters, as well as some basic vocabulary. 

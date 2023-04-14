@@ -1,6 +1,6 @@
 # Flashcard Application
 
-## An Application For Language & Vocabulary Pratice
+## An Application For Language & Vocabulary Practice
 
 **What will the application do?**
 
@@ -10,7 +10,7 @@ Users can choose to learn pre-made problem decks, or randomly
 generate a problem set of their own. This randomly generated problem set will be 
 of length determined by the user and contain only subjects enabled by the User. 
 
-Subjects include:
+Currently Supported Subjects:
 
 Japanese
 - hiragana 
